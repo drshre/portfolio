@@ -703,7 +703,7 @@ const LAYOUT = {
 };
 // Phones and narrow screens: the same order, zigzagged front to back down a two-wide column so it fills a portrait view
 if (MOBILE) ["outlandish", "allora", "starling", "estimator", "stash", "nella", "annie"].forEach((id, i) => {
-  LAYOUT[id] = [i % 2 ? 1.9 : -1.9, -4.4 + i * 2.0, LAYOUT[id][2]];
+  LAYOUT[id] = [i % 2 ? 1.9 : -1.9, -3.2 + i * 1.8, LAYOUT[id][2]];
 });
 const FOOTPRINT = 3.1;
 function diorama(p) {
@@ -1460,7 +1460,7 @@ plist.addEventListener("pointerleave", () => { hovered = null; refreshOutlines()
 const meadowStrip = document.getElementById("meadow-strip");
 if (meadowStrip) {
   meadowStrip.innerHTML = PROJECTS.map(p =>
-    '<button type="button" class="ms-btn" data-id="' + p.id + '">' +
+    '<button type="button" class="ms-btn sign r" data-id="' + p.id + '">' +
     '<span class="ms-name">' + p.name + '</span>' +
     '</button>'
   ).join("");

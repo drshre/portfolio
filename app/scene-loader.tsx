@@ -26,7 +26,34 @@ function load(src: string) {
   });
 }
 
+// Size the meadow to the part of the screen the browser actually shows. Mobile Safari (iOS 26 especially)
+// can report 100svh taller than the visible area, which pushes the bottom project pills under its toolbar.
+function fitToVisibleArea() {
+  const vv = window.visualViewport;
+  const heights = [window.innerHeight, document.documentElement.clientHeight];
+  // ignore the visual viewport while pinch-zoomed, or the scene would shrink with the zoom
+  if (vv && Math.abs(vv.scale - 1) < 0.01) heights.push(vv.height);
+  const h = Math.round(Math.min(...heights.filter((n) => n > 0)));
+  if (h > 0) document.documentElement.style.setProperty("--app-h", h + "px");
+}
+
 export default function SceneLoader() {
+  useEffect(() => {
+    fitToVisibleArea();
+    const vv = window.visualViewport;
+    window.addEventListener("resize", fitToVisibleArea);
+    window.addEventListener("orientationchange", fitToVisibleArea);
+    vv?.addEventListener("resize", fitToVisibleArea);
+    // iOS settles its toolbar a beat after load; measure again once it has
+    const t = window.setTimeout(fitToVisibleArea, 400);
+    return () => {
+      window.removeEventListener("resize", fitToVisibleArea);
+      window.removeEventListener("orientationchange", fitToVisibleArea);
+      vv?.removeEventListener("resize", fitToVisibleArea);
+      window.clearTimeout(t);
+    };
+  }, []);
+
   useEffect(() => {
     const w = window as unknown as { __sceneBooted?: boolean };
     if (w.__sceneBooted) return; // guards React strict-mode double effects in dev

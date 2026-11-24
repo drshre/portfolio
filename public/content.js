@@ -70,7 +70,7 @@ const DETAILS = {
     build: "I designed and wrote the app myself in Swift and SwiftUI starting in 2020, years before an AI could pair-program with me. Trails are built a new way that works offline, because the best places tend to have no signal. The data layer joins USGS, RIDB and SurveyLA into one model of public land, on an AWS backend.",
     design: "Navigation apps assume more sharing is better; Outlandish assumes the opposite. It gets you to a place without turning that place into a pin anyone can copy. It's built for casual explorers like me, and the newest version makes the map the root of the app, with the list tucked into a tab on the right edge.",
     taught: "Product quality is rarely the limiting factor; distribution is. A discovery app has a cold-start problem, because the content that attracts people only exists after people arrive. I now plan distribution before I plan features.",
-    links: [["outlandish.app", "https://outlandish.app"]]
+    links: [["getoutlandish.com", "https://getoutlandish.com"]]
   },
   allora: {
     answer: "an alarm app for iPhone that rethinks waking up, starting from the input.",
@@ -312,7 +312,7 @@ function sheetHTML(p) {
     ${footerHTML(p.id)}`;
 }
 /* ---------- Footer: closes every page in the sheet (about + project pages), in the list view and the 3D meadow ---------- */
-const LIVE = [["outlandish.app", "https://outlandish.app"], ["stashtosave.com", "https://stashtosave.com"], ["nellastories.com", "https://nellastories.com"], ["projects.offleash.xyz", "https://projects.offleash.xyz"]];
+const LIVE = [["getoutlandish.com", "https://getoutlandish.com"], ["stashtosave.com", "https://stashtosave.com"], ["nellastories.com", "https://nellastories.com"], ["projects.offleash.xyz", "https://projects.offleash.xyz"]];
 function footerHTML(currentId) {
   const inList = !!document.querySelector(".sheet.lv");
   const hash = currentId ? "#" + currentId : "";
