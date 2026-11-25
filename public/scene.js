@@ -357,7 +357,7 @@ const BUILD = {
 
   // Atomic-age desk clock: a rounded trapezoid frame in sage around a maple face, bold numerals, paddle hands
   AlarmClock(g, c) {
-    const SAGE = paint("#97301F", { roughness: 0.55, clearcoat: 0.2, clearcoatRoughness: 0.45 }); // mid-century red
+    const SAGE = paint("#BF3332", { roughness: 0.55, clearcoat: 0.2, clearcoatRoughness: 0.45 }); // mid-century red
     const roundPoly = (pts, r) => {
       const s2 = new THREE.Shape(), n = pts.length, V = p => new THREE.Vector2(p[0], p[1]);
       for (let i = 0; i < n; i++) {
@@ -742,6 +742,8 @@ function wireClockHands(model) {
 function standalone(p, model, holder) {
   model.traverse(o => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; } });
   const update = p.id === "allora" ? wireClockHands(model) : null;
+  // the clock's red: a deeper Defender red instead of the file's bright coral
+  if (p.id === "allora") model.traverse(o => { if (o.isMesh && o.material && o.material.name === "Clock_Red") o.material.color = C("#BF3332"); });
   if (p.id === "annie") {
     // the chest's wood: plain matte colour like the birdhouse post and the archery stand, not the baked grain textures
     const plainWood = new THREE.MeshStandardMaterial({ roughness: 0.9, metalness: 0 });
@@ -1878,7 +1880,7 @@ window.__dbg = { THREE, camera, controls, objects, scene };
   const done = () => { const l = document.getElementById("loading"); if (l) l.remove(); try { window.__main(); } catch (e) { console.error(e); fail(); } };
   window.GLB = {};
   // One .glb per project, fetched in parallel. Bump MODEL_VERSION when you replace a model.
-  const MODEL_VERSION = "10";
+  const MODEL_VERSION = "11";
   const ids = ["outlandish", "allora", "starling", "estimator", "stash", "nella", "annie"];
   const fetchBuf = id => fetch(`/models/${id}.glb?v=${MODEL_VERSION}`).then(r => { if (!r.ok) throw new Error(r.status); return r.arrayBuffer(); });
   const ready = window.MeshoptDecoder ? MeshoptDecoder.ready : Promise.resolve();
