@@ -14,17 +14,9 @@ export default function ListPage() {
     <>
       <main className="sheet is-open lv" id="sheet" aria-label="Shreyas Parat" tabIndex={-1}>
         <header className="sh-bar site-bar">
-          <a className="sb-home sign l" href="#" aria-label="Shreyas Parat, back to all projects">
+          <a className="sb-home sign r" href="#" aria-label="Shreyas Parat, back to all projects">
             <span>Shreyas Parat</span>
           </a>
-          <span className="sb-sep" aria-hidden="true">/</span>
-          <span className="sh-crumb" id="sh-crumb" />
-          <span className="sb-grow" />
-          <nav className="sb-nav" aria-label="Site">
-            <a className="sign r lv-3d" id="lv-3d" href="/">
-              <span>Explore in 3D</span>
-            </a>
-          </nav>
         </header>
         <div className="sh-body" id="sh-body" />
       </main>

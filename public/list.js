@@ -3,7 +3,6 @@
 (function () {
   const S = window.SITE;
   const sheet = document.getElementById("sheet"), body = document.getElementById("sh-body");
-  const to3d = document.getElementById("lv-3d"), crumb = document.getElementById("sh-crumb");
   const BASE_TITLE = document.title;
   let current = null, aboutScroll = 0;
 
@@ -16,15 +15,11 @@
       body.innerHTML = S.sheetHTML(p);
       if (p.id === "allora") S.wireAlloraSketch();
       S.wireDots();
-      to3d.style.display = "none"; // the 3D switch lives on the list home only
-      crumb.textContent = p.name;
       document.title = p.name + " · " + BASE_TITLE;
       sheet.scrollTop = 0;
     } else {
       body.innerHTML = S.aboutHTML({ signpost: true });
       S.wireAbout();
-      to3d.style.display = "";
-      crumb.textContent = "";
       document.title = BASE_TITLE;
       sheet.scrollTop = first ? 0 : aboutScroll;
     }
