@@ -17,7 +17,7 @@ const PROJECTS = [
     q: "What if you woke up to a different sound every morning?",
     blurb: "An alarm app that wakes you with a different birdsong each day, with a hand-painted look throughout.",
     status: "In development", year: "2026", role: "Designer and developer", built: "Swift, SwiftUI" },
-  { id: "estimator", name: "Project Estimator", mesh: "Calculator", color: "#A4532B",
+  { id: "estimator", name: "Project Estimator", mesh: "Calculator", color: "#000000",
     q: "What if a studio could scope a project before the kickoff call?",
     blurb: "An AI estimator that drafts a project's first scope from how the studio actually estimates. Built through Offleash and adopted across Five & Done.",
     status: "Adopted by the studio", year: "2025", role: "Co-founder of Offleash, builder", built: "Internal tool" },

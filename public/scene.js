@@ -744,6 +744,11 @@ function standalone(p, model, holder) {
   const update = p.id === "allora" ? wireClockHands(model) : null;
   // the clock's red: a deeper Defender red instead of the file's bright coral
   if (p.id === "allora") model.traverse(o => { if (o.isMesh && o.material && o.material.name === "Clock_Red") o.material.color = C("#BF3332"); });
+  // the birdhouse roof: darker, earthy browns from the painted sparrow reference instead of the file's terracotta
+  if (p.id === "starling") {
+    const roof = { "T#A84826": "#534B3F", "T#B2502A": "#5E5446", "T#9E4322": "#4A4238", "T#BC5A30": "#665B4B", "Terra2": "#3A342B" };
+    model.traverse(o => { if (o.isMesh && o.material && roof[o.material.name]) { o.material = o.material.clone(); o.material.color = C(roof[o.material.name]); } });
+  }
   if (p.id === "annie") {
     // the chest's wood: plain matte colour like the birdhouse post and the archery stand, not the baked grain textures
     const plainWood = new THREE.MeshStandardMaterial({ roughness: 0.9, metalness: 0 });
@@ -1402,13 +1407,25 @@ function exitLocal() {
   requestAnimationFrame(() => { resize(); const v = sceneView || HOME; moveCamera(v.pos, v.target); });
   select(g);
 }
+let routeId = "";
 function applyRoute(initial) {
   const id = location.hash.replace("#", "");
+  const wasAway = routeId !== ""; routeId = id;
   if (id === "about") { if (selected) select(null); showAbout(initial === true); return; }
   const g = objects.find(o => o.userData.project.id === id);
   if (g) { if (g !== selected) select(g, true); showSheet(g, initial === true); }
-  else { hideSheet(); if (selected && !initial) select(null); }
+  else {
+    hideSheet(); if (selected && !initial) select(null);
+    // Back on the meadow from a project or the about page: pull the camera back to the home view,
+    // so nobody has to zoom out by hand to pick the next project.
+    if (wasAway && !initial && !localObj) frameAll();
+  }
 }
+// Coming back via the browser's back button from another page (bfcache restore) also starts at the home view.
+addEventListener("pageshow", e => {
+  if (!e.persisted || location.hash.length > 1 || localObj) return;
+  tween = null; camera.position.copy(HOME.pos); controls.target.copy(HOME.target); controls.update(); setViewLabel("User Perspective");
+});
 addEventListener("hashchange", () => applyRoute(false));
 // "List view" sign: carries the current page across, so /list opens on the same project (or the about page)
 const viewToggle = document.getElementById("view-toggle");
@@ -1541,8 +1558,9 @@ plist.addEventListener("pointerleave", () => { hovered = null; refreshOutlines()
 // Mobile meadow project strip
 const meadowStrip = document.getElementById("meadow-strip");
 if (meadowStrip) {
+  // each sign is painted in its project's colour so it reads as the label for that object, with white lettering
   meadowStrip.innerHTML = PROJECTS.map(p =>
-    '<button type="button" class="ms-btn sign r" data-id="' + p.id + '">' +
+    '<button type="button" class="ms-btn sign r" data-id="' + p.id + '" style="--pc:' + p.color + ';--pc-ink:#FFFDF6">' +
     '<span class="ms-name">' + p.name + '</span>' +
     '</button>'
   ).join("");
@@ -1550,6 +1568,34 @@ if (meadowStrip) {
     const b = e.target.closest("button[data-id]");
     if (b) openProject(objects.find(o => o.userData.project.id === b.dataset.id));
   });
+  // Desktop in a narrow window: a mouse wheel only scrolls vertically and the scrollbar is hidden, so turn the wheel
+  // into sideways scrolling and let the strip be dragged. Snapping is paused while it moves, then settles on a sign.
+  let snapTimer = null;
+  const pauseSnap = () => { meadowStrip.style.scrollSnapType = "none"; clearTimeout(snapTimer); };
+  const resumeSnap = (ms) => { clearTimeout(snapTimer); snapTimer = setTimeout(() => { meadowStrip.style.scrollSnapType = ""; }, ms); };
+  meadowStrip.addEventListener("wheel", e => {
+    if (meadowStrip.scrollWidth <= meadowStrip.clientWidth || Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+    e.preventDefault(); pauseSnap();
+    meadowStrip.scrollLeft += e.deltaMode === 1 ? e.deltaY * 16 : e.deltaY;
+    resumeSnap(180);
+  }, { passive: false });
+  let drag = null, dragged = false;
+  meadowStrip.addEventListener("pointerdown", e => {
+    if (e.pointerType !== "mouse" || e.button !== 0) return;
+    drag = { x: e.clientX, left: meadowStrip.scrollLeft, id: e.pointerId }; dragged = false;
+  });
+  meadowStrip.addEventListener("pointermove", e => {
+    if (!drag || e.pointerId !== drag.id) return;
+    const dx = e.clientX - drag.x;
+    if (!dragged && Math.abs(dx) > 5) { dragged = true; pauseSnap(); meadowStrip.setPointerCapture(e.pointerId); meadowStrip.style.cursor = "grabbing"; }
+    if (dragged) meadowStrip.scrollLeft = drag.left - dx;
+  });
+  const endDrag = () => { if (!drag) return; drag = null; meadowStrip.style.cursor = ""; if (dragged) resumeSnap(0); };
+  meadowStrip.addEventListener("pointerup", endDrag);
+  meadowStrip.addEventListener("pointercancel", endDrag);
+  // a drag shouldn't also open the sign it started on
+  meadowStrip.addEventListener("click", e => { if (dragged) { e.stopPropagation(); e.preventDefault(); dragged = false; } }, true);
+  meadowStrip.addEventListener("dragstart", e => e.preventDefault());
 }
 
 // a small live turntable of the object for the page header

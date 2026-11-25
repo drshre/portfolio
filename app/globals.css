@@ -580,6 +580,12 @@ body { background: var(--horizon); }
   .ms-btn.sign:nth-child(odd) { --tilt: -1.6deg; }
   .ms-btn.sign:nth-child(even) { --tilt: 1.2deg; }
   .ms-btn.sign > span { min-height: 39px; box-sizing: border-box; }
+  /* painted in the project's own colour (--pc, set per button in scene.js) so each sign matches its object in the meadow */
+  .ms-btn.sign > span {
+    color: var(--pc-ink, var(--plank-ink));
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.28); /* keeps white lettering legible on the lighter project colours */
+    background: repeating-linear-gradient(178deg, rgba(0, 0, 0, 0.07) 0 2px, transparent 2px 7px), linear-gradient(180deg, color-mix(in srgb, var(--pc, var(--plank)) 84%, #fff), var(--pc, var(--plank)));
+  }
   .ms-dot {
     width: 10px;
     height: 10px;
