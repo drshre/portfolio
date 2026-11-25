@@ -13,12 +13,21 @@ export default function ListPage() {
   return (
     <>
       <main className="sheet is-open lv" id="sheet" aria-label="Shreyas Parat" tabIndex={-1}>
-        <div className="sh-bar">
-          <span style={{ flex: 1 }} />
-          <a className="sign r lv-3d" id="lv-3d" href="/">
-            <span>Explore in 3D</span>
+        <header className="sh-bar site-bar">
+          <a className="sb-home" href="#" aria-label="Shreyas Parat, back to all projects">
+            <b>Shreyas Parat</b>
+            <span className="sb-role">Design engineer</span>
           </a>
-        </div>
+          <span className="sb-sep" aria-hidden="true">/</span>
+          <span className="sh-crumb" id="sh-crumb" />
+          <span className="sb-grow" />
+          <nav className="sb-nav" aria-label="Site">
+            <a className="sign r lv-3d" id="lv-3d" href="/">
+              <span>Explore in 3D</span>
+            </a>
+            <a className="sb-mail" href="mailto:shreyas.parat@gmail.com">Email me</a>
+          </nav>
+        </header>
         <div className="sh-body" id="sh-body" />
       </main>
       <ListLoader />
