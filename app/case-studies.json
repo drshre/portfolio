@@ -1,0 +1,254 @@
+[
+  {
+    "id": "outlandish",
+    "name": "Outlandish",
+    "order": 0,
+    "ready": true,
+    "color": "6F7F4B/",
+    "color2": "#EDEAE1",
+    "color3": "#BBA063",
+    "role": "Solo designer & engineer",
+    "years": "2020",
+    "platform": "iOS",
+    "stack": "Swift, Mapbox, AWS",
+    "status": "App Store",
+    "hook": "What if a map was designed for browsing?",
+    "premise": "When you don't know what exactly to search for, the Outlandish map helps you find wild spaces and places at a glance. ",
+    "animatic": "tracking a pre-planned track, then adding a marker",
+    "beats": [
+      {
+        "h": "WYSIWYG",
+        "b": "Outlandish strives to answer the simplest question possible, \"where can I go off-roading?\" without any excess. The map visually emphasizes off-road trails and areas, making it dirt simple to plan your next outing."
+      },
+      {
+        "h": "Community added markers",
+        "b": "The second question asked is usually, \"what's it like out there?\"\n\nTo which Outlandish answers with community-added markers for trail conditions, wild camp sites, and more."
+      },
+      {
+        "h": "No offline download, no problem",
+        "b": "Outlandish is built in a way that even without offline maps downloaded, you can follow a pre-planned route, just like you would with a paper map. "
+      }
+    ],
+    "ask": [
+      "why there's no image sharing",
+      "planning a route in the app"
+    ],
+    "updatedAt": "2026-11-24T01:08:23.481Z"
+  },
+  {
+    "id": "annie",
+    "name": "Annie",
+    "order": 1,
+    "ready": true,
+    "color": "#0E9A4E",
+    "color2": "#F4F4F0",
+    "color3": "#000000",
+    "role": "Solo designer & engineer",
+    "years": "2026",
+    "platform": "iOS",
+    "stack": "SwiftUI, Plaid",
+    "status": "Beta Testing",
+    "hook": "What if you budgeted the way you count calories?",
+    "premise": "Budgeting apps treat the month as one big number, and nobody can keep a whole month in mind on a Tuesday. Annie makes each day count, with the month always in view.",
+    "animatic": "The spokes diagram filling in day by day",
+    "beats": [
+      {
+        "h": "One day at a time",
+        "b": "When you see how daily spend adds up towards a monthly budget, you can take better control of your money."
+      },
+      {
+        "h": "Track every dollar",
+        "b": "Annie connects to credit cards via Plaid to pull in your transactions, while cash and untracked cards are entered manually. "
+      },
+      {
+        "h": "Stay focused",
+        "b": "Most budgeting apps overwhelm with categories, goals, reports and alerts. Annie focuses on just one thing so beginners who have never budgeted before will actually keep using it."
+      }
+    ],
+    "ask": [
+      "the features I cut and why",
+      "how the spokes diagram changed over versions"
+    ],
+    "updatedAt": "2026-11-24T01:14:58.393Z"
+  },
+  {
+    "id": "pmwpm43cb",
+    "name": "Allora",
+    "order": 2,
+    "ready": true,
+    "color": "#FE0100",
+    "color2": "#690000",
+    "color3": "#000000",
+    "role": "Solo designer & engineer",
+    "years": "2025",
+    "platform": "iOS",
+    "stack": "SwiftUI, AlarmKit",
+    "status": "TestFlight",
+    "hook": "What if you could trust that you set the right alarms?",
+    "premise": "Setting the right alarms is a very important, high pressure, ritual we all undertake every night. So why is it still so common to set the wrong alarm, sleep through them, or need to double-check them over and over again?",
+    "animatic": "turning on a schedule, then seeing the alarms turn on + time-until-alarm sweep",
+    "beats": [
+      {
+        "h": "Never mix up AM/PM again",
+        "b": "A 24-hour clock makes it clear that you're setting an alarm for 6AM, not 6PM by accident. On top of that, every alarm you set lets you know how long you have until it's time to wake up."
+      },
+      {
+        "h": "Group multiple alarms to create a Schedule",
+        "b": "Create groupings of alarms for different schedules like weekday shifts, weekend routines, or different waking patterns. "
+      },
+      {
+        "h": "Your eyes will thank you",
+        "b": "The red-shifted UI means you can use the app in the dark, once you've turned the lights off. It's a gentle color that won't sear your eyeballs the way other alarms will."
+      }
+    ],
+    "ask": [
+      "how I designed the alarm-setting interaction",
+      "where the idea for Alarm Schedules came from"
+    ],
+    "updatedAt": "2026-11-24T01:10:53.563Z"
+  },
+  {
+    "id": "pmwtxkl2i",
+    "name": "Starling",
+    "order": 3,
+    "ready": true,
+    "color": "#B0BD32",
+    "color2": "#F3F0E4",
+    "color3": "#4E550A",
+    "role": "Solo designer & engineer",
+    "years": "2026",
+    "platform": "iOS",
+    "stack": "SwiftUI, Vision Frameworks",
+    "status": "Beta Testing",
+    "hook": "What if you could wake up to a different birdsong each morning?",
+    "premise": "I won't make any \"early bird\" puns, but there's something truly wonderful and primal about waking up to the sounds of birdsong in the morning. ",
+    "animatic": "sketching in a bird",
+    "beats": [
+      {
+        "h": "Sourcing the content",
+        "b": "All images are from Wikimedia Commons, used under Creative Commons licenses, then repainted within the app. All recordings are sourced from xeno-canto.org and re-formatted for AlarmKit"
+      },
+      {
+        "h": "Crafting the whimsy",
+        "b": "Birds have always evoked a sense of whimsy in me, so I developed an loose, hand-drawn aesthetic that fillsthe app. If we must wake up using a digital alarm, this one stays true to its natural roots."
+      },
+      {
+        "h": "Set your schedule",
+        "b": "Following my learnings from Allora, I designed another unique interaction to set alarms and group them into recurring schedules."
+      }
+    ],
+    "ask": [
+      "",
+      ""
+    ],
+    "updatedAt": "2026-11-24T01:15:21.627Z"
+  },
+  {
+    "id": "pmwpg8tin",
+    "name": "Stash",
+    "order": 4,
+    "ready": true,
+    "color": "#FF540B",
+    "color2": "#FFFFFF",
+    "color3": "",
+    "role": "Solo designer & engineer",
+    "years": "2025",
+    "platform": "iOS",
+    "stack": "SwiftUI, CloudKit, Apple Foundation Models",
+    "status": "App Store",
+    "hook": "What if taking a note was as easy as scribbling on a Post-It?",
+    "premise": "Nearly every notes app out there is just a de-contented word processor. They follow the classic document and folder structure. They make you figure out where a note should go before you even take the note.\n\nNot Stash.",
+    "animatic": "opening the app, simultaneously auto-opening the keyboard",
+    "beats": [
+      {
+        "h": "Auto-open keyboard",
+        "b": "I designed Stash for the transition moment between having an idea and trying to capture it, before it's gone for good. "
+      },
+      {
+        "h": "One stream of consciousness",
+        "b": "The philosophy of Stash is to capture first, organize second."
+      },
+      {
+        "h": "Double-tap to highlight",
+        "b": "In order to keep things as simple as possible, I leaned on a familiar pattern: double-tap to like. This way, you can highlight the ones you want to, while still flying back through your thoughts."
+      }
+    ],
+    "ask": [
+      "",
+      ""
+    ],
+    "updatedAt": "2026-11-24T01:11:23.926Z"
+  },
+  {
+    "id": "pmwpg9f87",
+    "name": "Nella",
+    "order": 5,
+    "ready": false,
+    "color": "#9747FF",
+    "color2": "#D5B5FF",
+    "color3": "#FFFFFF",
+    "role": "Designer ",
+    "years": "2024",
+    "platform": "iOS",
+    "stack": "",
+    "status": "App Store",
+    "hook": "What if you could create bedtime stories with your little ones?",
+    "premise": "",
+    "animatic": "",
+    "beats": [
+      {
+        "h": "Once upon a time...",
+        "b": ""
+      },
+      {
+        "h": "Everyone loves Mad Libs",
+        "b": ""
+      },
+      {
+        "h": "",
+        "b": ""
+      }
+    ],
+    "ask": [
+      "how I came up with the name & brand for Nella",
+      ""
+    ],
+    "updatedAt": "2026-11-24T01:12:17.164Z"
+  },
+  {
+    "id": "pmwpg8y4h",
+    "name": "Project Estimator",
+    "order": 6,
+    "ready": false,
+    "color": "#000000",
+    "color2": "#3A3A3A",
+    "color3": "#FFFFFF",
+    "role": "Design Engineer",
+    "years": "2026",
+    "platform": "Web",
+    "stack": "Claude Code, Vercel, AWS",
+    "status": "Live",
+    "hook": "What if you and a vendor could evaluate each other at the same time?",
+    "premise": "",
+    "animatic": "",
+    "beats": [
+      {
+        "h": "Contact forms feel like black holes",
+        "b": ""
+      },
+      {
+        "h": "Few people know what they want",
+        "b": ""
+      },
+      {
+        "h": "The timeline is the kicker",
+        "b": ""
+      }
+    ],
+    "ask": [
+      "",
+      ""
+    ],
+    "updatedAt": "2026-11-24T00:07:32.773Z"
+  }
+]
