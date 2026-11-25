@@ -793,20 +793,22 @@ body { background: var(--horizon); }
 
 /* ---------- Site header: sticky bar on every page in the sheet (project + about), in the meadow and the list view ---------- */
 .sheet .sh-bar.site-bar {
-  position: sticky !important; top: 0; z-index: 5; gap: 10px; min-height: 64px; box-sizing: border-box;
-  padding: max(10px, env(safe-area-inset-top)) max(clamp(20px, 4vw, 64px), calc((100% - 1680px) / 2 + 64px)) 10px;
+  position: sticky !important; top: 0; z-index: 5; gap: 10px; box-sizing: border-box;
+  /* even space above and below the sign, so it sits halfway between the top edge and the first tiles */
+  padding: max(var(--bar-pad), env(safe-area-inset-top)) max(clamp(20px, 4vw, 64px), calc((100% - 1680px) / 2 + 64px)) var(--bar-pad);
   background: rgba(247, 242, 234, 0.86) !important;
   -webkit-backdrop-filter: blur(14px) saturate(1.2) !important; backdrop-filter: blur(14px) saturate(1.2) !important;
-  border-bottom: 1px solid var(--pd-line);
+  border-bottom: 0;
   font-family: "Outfit", system-ui, sans-serif; color: var(--pd-ink);
 }
+.sheet { --bar-pad: 24px; }
 .sheet .sh-bar.site-bar { justify-content: center; }
 .site-bar .sb-home.sign { --tilt: -1.5deg; font-size: 16px; white-space: nowrap; flex: none; }
 .site-bar .sb-home.sign:focus-visible { outline: 2px solid var(--plank-ink); outline-offset: 4px; border-radius: 0; }
-/* room between the bar and the first row of tiles */
-.sheet .sh-body:has(.bento) { padding-top: 24px; }
+/* the bar's bottom padding is the gap to the first row of tiles */
+.sheet .sh-body:has(.bento) { padding-top: 0; }
+.sheet .sh-body > .bento { padding-top: 0; }
 @media (max-width: 860px) {
-  .sheet .sh-bar.site-bar { min-height: 56px; gap: 8px; }
+  .sheet { --bar-pad: 18px; }
   .site-bar .sb-home.sign { font-size: 15px; }
-  .sheet .sh-body:has(.bento) { padding-top: 16px; }
 }
