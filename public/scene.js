@@ -1926,7 +1926,7 @@ window.__dbg = { THREE, camera, controls, objects, scene };
   const done = () => { const l = document.getElementById("loading"); if (l) l.remove(); try { window.__main(); } catch (e) { console.error(e); fail(); } };
   window.GLB = {};
   // One .glb per project, fetched in parallel. Bump MODEL_VERSION when you replace a model.
-  const MODEL_VERSION = "11";
+  const MODEL_VERSION = "12";
   const ids = ["outlandish", "allora", "starling", "estimator", "stash", "nella", "annie"];
   const fetchBuf = id => fetch(`/models/${id}.glb?v=${MODEL_VERSION}`).then(r => { if (!r.ok) throw new Error(r.status); return r.arrayBuffer(); });
   const ready = window.MeshoptDecoder ? MeshoptDecoder.ready : Promise.resolve();
