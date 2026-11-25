@@ -292,7 +292,7 @@ function sheetHTML(p) {
     s4: () => ({ cls: web ? "t-screen t-web" : "t-screen", html: screen(3) }),
     anim: () => ({ cls: "t-anim", html: a.animatic ? media(a.animatic, "video", "Animatic")
       : `${label("Animatic")}<span class="play" aria-hidden="true"></span><span class="bt-cap">${c.animatic ? esc(c.animatic) : `The ${esc(p.name)} animatic will play here`}</span>` }),
-    ask: () => c.ask.length ? { cls: "t-ask", html: `${label("Ask me about")}<ul>${c.ask.map(t => `<li><a href="${mail(t)}">${esc(t.charAt(0).toUpperCase() + t.slice(1))}<span aria-hidden="true">→</span></a></li>`).join("")}</ul>` } : null,
+    ask: () => c.ask.length ? { cls: "t-ask", html: `<span class="bt-label">Ask me more about</span><ul>${c.ask.map(t => `<li><a href="${mail(t)}">${esc(t.charAt(0).toUpperCase() + t.slice(1))}<span aria-hidden="true">→</span></a></li>`).join("")}</ul>` } : null,
     link: () => d.links && d.links.length ? { cls: "t-link", html: d.links.map(([t, u]) => `<a href="${u}">${label("Visit")}<b>${esc(t)}</b><span aria-hidden="true">↗</span></a>`).join("") } : null,
     sketch: () => p.id === "allora" ? { cls: "t-sketch", html: `${label("Try it")}${alloraSketch()}` } : null
   };
@@ -409,5 +409,25 @@ function aboutHTML(opts = {}) {
 }
 function wireAbout() {}
 
-return { PROJECTS, DETAILS, ASSETS, isShipped, alloraSketch, wireAlloraSketch, media, wireDots, esc, whatIf, caseFor, sheetHTML, aboutHTML, footerHTML, wireAbout };
+/* ---------- Cascade in: project-page tiles settle in as a soft diagonal wave from the top-left, all on open; nothing
+   waits for scroll. Delay follows each tile's position (not its index), so the wave reads as one continuous motion.
+   Opacity leads, while the lift, scale and blur ease out longer on an expo curve. ---------- */
+function unfoldBento(root) {
+  const grid = (root || document).querySelector(".bento:not(.bento-about)");
+  if (!grid || reduceMotion || !grid.animate) return;
+  const g = grid.getBoundingClientRect();
+  const BASE = 180, PER_Y = 0.32, PER_X = 0.14, MAX = 900; // ms of delay per px down / across, capped so long pages don't drag
+  const EASE = "cubic-bezier(.16, 1, .3, 1)";
+  grid.querySelectorAll(":scope > .bt").forEach(el => {
+    const r = el.getBoundingClientRect();
+    const delay = BASE + Math.min(MAX, (r.top - g.top) * PER_Y + (r.left - g.left) * PER_X);
+    el.animate([
+      { opacity: 0, transform: "translateY(10px) scale(.985)", filter: "blur(6px)" },
+      { opacity: 1, offset: 0.55 },
+      { opacity: 1, transform: "none", filter: "blur(0)" }
+    ], { duration: 1100, delay, easing: EASE, fill: "backwards" });
+  });
+}
+
+return { PROJECTS, DETAILS, ASSETS, isShipped, alloraSketch, wireAlloraSketch, media, wireDots, esc, whatIf, caseFor, sheetHTML, aboutHTML, footerHTML, wireAbout, unfoldBento };
 })();

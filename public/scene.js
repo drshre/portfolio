@@ -1,7 +1,7 @@
 window.__main = function () {
 const MIDCENTURY = "https://claude.ai/artifact/3FeoRTpUdNkBY6xcQwF9Jr";
 /* Projects, case studies and page templates live in public/content.js (shared with the list view at /list). */
-const { PROJECTS, DETAILS, ASSETS, isShipped, alloraSketch, wireAlloraSketch, media, wireDots, esc, whatIf, caseFor, sheetHTML, aboutHTML, wireAbout } = window.SITE;
+const { PROJECTS, DETAILS, ASSETS, isShipped, alloraSketch, wireAlloraSketch, media, wireDots, esc, whatIf, caseFor, sheetHTML, aboutHTML, wireAbout, unfoldBento } = window.SITE;
 
 if (THREE.ColorManagement) THREE.ColorManagement.legacyMode = false;
 const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -739,9 +739,51 @@ function wireClockHands(model) {
     hands.forEach((h, i) => { if (h) h.g.quaternion.setFromAxisAngle(n, -(want[i] - h.a0)); });
   };
 }
+// Stash: make the three pads read as sticky-note pads: fine sheet lines around the edges, and the top sheet peeling up at one corner
+function stickyNotes(model) {
+  const pads = ["Pad_Bottom", "Pad_Middle", "Pad_Top"].map(n => model.getObjectByName(n)).filter(Boolean);
+  if (!pads.length) return;
+  const paper = pads[0].material.clone();
+  paper.roughness = 0.92;
+  paper.extensions = { derivatives: true };
+  paper.customProgramCacheKey = () => "sticky-paper";
+  paper.onBeforeCompile = sh => {
+    sh.vertexShader = sh.vertexShader
+      .replace("#include <common>", "#include <common>\nvarying vec3 vSheetPos; varying vec3 vSheetN;")
+      .replace("#include <begin_vertex>", "#include <begin_vertex>\nvSheetPos = position; vSheetN = normal;");
+    sh.fragmentShader = sh.fragmentShader
+      .replace("#include <common>", "#include <common>\nvarying vec3 vSheetPos; varying vec3 vSheetN;")
+      .replace("#include <color_fragment>", `#include <color_fragment>
+        // the pad's sides: paler paper edges with a thin line between each sheet; the lines fade out when too fine to draw cleanly
+        float side = 1.0 - smoothstep(0.35, 0.65, abs(normalize(vSheetN).y));
+        float t = vSheetPos.y / 0.0021 + 0.5, w = fwidth(t), d = min(fract(t), 1.0 - fract(t));
+        float line = (1.0 - smoothstep(0.06, 0.06 + w * 1.5, d)) * (1.0 - smoothstep(0.3, 0.6, w));
+        diffuseColor.rgb = mix(diffuseColor.rgb, diffuseColor.rgb * mix(1.12, 0.72, line), side);`);
+  };
+  pads.forEach(m => { m.material = paper; });
+
+  // the top sheet: lies flat on the top pad, glued along the back, its front corner curling up off the pad
+  const top = pads[pads.length - 1];
+  top.geometry.computeBoundingBox();
+  const bb = top.geometry.boundingBox, half = (bb.max.x - bb.min.x) / 2, y0 = bb.max.y + 0.0003;
+  const N = 28, geo = new THREE.PlaneGeometry(half * 2, half * 2, N, N);
+  geo.rotateX(-Math.PI / 2);
+  const dir = new THREE.Vector3(-1, 0, 1).normalize(), R = 0.07, d0 = 0.018, p = new THREE.Vector3(), pos = geo.attributes.position;
+  for (let i = 0; i < pos.count; i++) {
+    p.fromBufferAttribute(pos, i);
+    const s = p.dot(dir) - d0;
+    if (s > 0) { const a = s / R; p.addScaledVector(dir, -s + R * Math.sin(a)); p.y = R * (1 - Math.cos(a)); }
+    pos.setXYZ(i, p.x, p.y + y0, p.z);
+  }
+  geo.computeVertexNormals();
+  const sheet = new THREE.Mesh(geo, paper);
+  sheet.name = "Sheet_Peel"; sheet.castShadow = sheet.receiveShadow = true;
+  top.add(sheet);
+}
 function standalone(p, model, holder) {
   model.traverse(o => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; } });
   const update = p.id === "allora" ? wireClockHands(model) : null;
+  if (p.id === "stash") stickyNotes(model);
   // the clock's red: a deeper Defender red instead of the file's bright coral
   if (p.id === "allora") model.traverse(o => { if (o.isMesh && o.material && o.material.name === "Clock_Red") o.material.color = C("#BF3332"); });
   // the birdhouse roof: darker, earthy browns from the painted sparrow reference instead of the file's terracotta
@@ -771,7 +813,7 @@ function standalone(p, model, holder) {
   // clock hands live in rotating pivot groups: lift the pivot (whose parent doesn't turn), not the hand,
   // or the lift direction spins with the hand and it drifts off the face
   const lift = []; model.traverse(o => {
-    if (!o.isMesh) return;
+    if (!o.isMesh || o.parent.isMesh) return; // a mesh parented to another mesh (the peeling sheet) rides along with it
     const t = o.parent && o.parent.userData.clockPivot ? o.parent : o;
     if (!lift.includes(t)) lift.push(t);
   });
@@ -1726,6 +1768,7 @@ function showSheet(g, instant) {
     sheet.setAttribute("aria-hidden", "false");
     sheet.classList.add("is-open");
     sheetOpen = true; sheetSince = performance.now();
+    unfoldBento(shBody);
     sheet.focus({ preventScroll: true });
   };
   if (instant || reduceMotion || sheetOpen) { fogIn(new THREE.Box3().setFromObject(g).getCenter(new THREE.Vector3()), true); fill(); }

@@ -19,6 +19,7 @@
       to3d.style.display = "none"; // the 3D switch lives on the list home only
       document.title = p.name + " · " + BASE_TITLE;
       sheet.scrollTop = 0;
+      S.unfoldBento(body);
     } else {
       body.innerHTML = S.aboutHTML({ signpost: true });
       S.wireAbout();
