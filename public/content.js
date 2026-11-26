@@ -122,15 +122,16 @@ const DETAILS = {
   }
 };
 
-// Drop real files in here as they're ready: icon (app icon, square, shown at 64×64), hero (16:9 image), screens (up to 4 phone screenshots), animatic (MP4).
+// Drop real files in here as they're ready: icon (app icon, square, shown at 64×64), hero (16:9 image), screens (up to 4 phone screenshots: a path, or { src, alt }), animatic (MP4).
+const shots = (id, alts) => alts.map((alt, i) => ({ src: `/screens/${id}-${i + 1}.webp`, alt }));
 const ASSETS = {
-  outlandish: { hero: null, screens: [], animatic: null },
-  allora:     { hero: null, screens: [], animatic: null },
-  starling:   { hero: null, screens: [], animatic: null },
+  outlandish: { hero: null, animatic: null, screens: shots("outlandish", ["Trail details for 4S10 East Indian Creek, with clearance and surface at a glance", "Marking trail conditions: rocky, narrow, mud, steep and more", "A 19.6-mile route highlighted across the San Bernardino National Forest"]) },
+  allora:     { hero: null, animatic: null, screens: shots("allora", ["The 24-hour dial, showing alarms at 6:20 and 6:30 AM and the time until wake-up", "Alarm Schedules: Call, Work and Weekend, each switched on or off as a set", "The red-shifted minute grid for picking an alarm time in the dark"]) },
+  starling:   { hero: null, animatic: null, screens: shots("starling", ["A hand-painted Grey-headed Canary-flycatcher, today's bird", "Jump to Day: a calendar with a different bird for each day", "The hand-drawn keypad for adding alarms to a schedule"]) },
   estimator:  { hero: null, screens: [], animatic: null },
-  stash:      { hero: null, screens: [], animatic: null },
+  stash:      { hero: null, animatic: null, screens: shots("stash", ["The keyboard opens with the app, ready to capture a thought", "Double-tap a note to highlight it", "Photos stacked in the stream, and a note crossed out with a swipe"]) },
   nella:      { hero: null, screens: [], animatic: null },
-  annie:      { hero: null, screens: [], animatic: null }
+  annie:      { hero: null, animatic: null, screens: shots("annie", ["October's spending as a spoke diagram, one spoke per day", "Logging a $61.72 purchase by hand", "The year at a glance, one spoke per month"]) }
 };
 
 function alloraSketch() {
@@ -151,8 +152,9 @@ function wireAlloraSketch() {
 }
 
 function media(src, kind, label, spec) {
+  if (src && kind === "img" && typeof src === "object") { label = src.alt || label; src = src.src; }
   if (src && kind === "video") return `<video src="${src}" autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;display:block"></video>`;
-  if (src) return `<img src="${src}" alt="${label}" style="width:100%;height:100%;object-fit:cover;display:block">`;
+  if (src) return `<img src="${src}" alt="${esc(label)}" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;display:block">`;
   return `<div class="ph-frame" style="width:100%;height:100%"><b>${label}</b><span>${spec}</span></div>`;
 }
 
@@ -188,26 +190,30 @@ const LAYOUTS = {
     ["hero", 12, 6],
     ["premise", 5, 3], ["s1", 3, 6, "tint"], ["b1", 4, 3, "ink"],
     ["b2", 5, 3, "acc"], ["b3", 4, 3, "line"],
-    ["anim", 8, 5, "ink"], ["link", 4, 2, "acc"], ["ask", 4, 3]
+    ["s2", 3, 6, "tint"], ["anim", 6, 6, "ink"], ["s3", 3, 6, "tint"],
+    ["ask", 8, 2], ["link", 4, 2, "acc"]
   ],
   annie: [
     ["hook", 7, 4, "acc"], ["premise", 5, 4],
-    ["anim", 7, 6, "ink"], ["b1", 5, 3], ["b2", 5, 3, "line"],
-    ["s1", 3, 6, "tint"], ["s2", 3, 6, "tint"], ["b3", 6, 3, "acc"], ["facts", 6, 3],
+    ["s1", 3, 6, "tint"], ["b1", 6, 3], ["s2", 3, 6, "tint"],
+    ["b2", 6, 3, "line"],
+    ["anim", 9, 6, "ink"], ["s3", 3, 6, "tint"],
+    ["b3", 6, 3, "acc"], ["facts", 6, 3],
     ["ask", 12, 2], ["link", 12, 2]
   ],
   stash: [
     ["hook", 12, 3, "line"],
     ["premise", 6, 6, "acc"], ["s1", 3, 6, "tint"], ["s2", 3, 6, "tint"],
     ["b1", 4, 3], ["b2", 4, 3, "ink"], ["b3", 4, 3],
-    ["hero", 8, 5], ["facts", 4, 3], ["link", 4, 2, "acc"],
-    ["ask", 12, 2]
+    ["s3", 3, 6, "tint"], ["hero", 9, 6],
+    ["facts", 4, 3], ["link", 4, 3, "acc"], ["ask", 4, 3]
   ],
   allora: [
     ["sketch", 4, 7, "ink"], ["hook", 8, 4], ["premise", 8, 3, "line"],
     ["b1", 6, 3], ["b2", 6, 3, "acc"],
     ["s1", 3, 6, "tint"], ["b3", 6, 6, "ink"], ["s2", 3, 6, "tint"],
-    ["anim", 8, 5], ["facts", 4, 3], ["ask", 4, 2, "acc"],
+    ["s3", 3, 6, "tint"], ["anim", 9, 6],
+    ["facts", 4, 3], ["ask", 8, 3, "acc"],
     ["link", 12, 2]
   ],
   nella: [
@@ -229,7 +235,7 @@ const LAYOUTS = {
     ["hook", 8, 4, "acc"], ["s1", 4, 7, "tint"],
     ["premise", 8, 3, "line"],
     ["b1", 6, 4], ["b2", 6, 4, "ink"],
-    ["s2", 4, 6, "tint"], ["b3", 8, 3], ["facts", 8, 3],
+    ["s2", 4, 6, "tint"], ["s3", 4, 6, "tint"], ["b3", 4, 3], ["facts", 4, 3],
     ["anim", 12, 5], ["ask", 12, 2], ["link", 12, 2]
   ]
 };
@@ -288,7 +294,7 @@ function sheetHTML(p) {
     b1: () => beat(0), b2: () => beat(1), b3: () => beat(2),
     s1: () => ({ cls: web ? "t-screen t-web" : "t-screen", html: screen(0) }),
     s2: () => ({ cls: web ? "t-screen t-web" : "t-screen", html: screen(1) }),
-    s3: () => ({ cls: web ? "t-screen t-web" : "t-screen", html: screen(2) }),
+    s3: () => ({ cls: web ? "t-screen t-web t-s3" : "t-screen t-s3", html: screen(2) }),
     s4: () => ({ cls: web ? "t-screen t-web" : "t-screen", html: screen(3) }),
     anim: () => ({ cls: "t-anim", html: a.animatic ? media(a.animatic, "video", "Animatic")
       : `${label("Animatic")}<span class="play" aria-hidden="true"></span><span class="bt-cap">${c.animatic ? esc(c.animatic) : `The ${esc(p.name)} animatic will play here`}</span>` }),

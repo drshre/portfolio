@@ -727,6 +727,7 @@ body { background: var(--horizon); }
   .t-screen.t-web { grid-column: span 2; aspect-ratio: 4 / 3; }
   .t-hook { order: -1; }
   .bento[data-screens="1"] .t-screen { grid-column: span 2; aspect-ratio: 1 / 1; }
+  .bento[data-screens="3"] .t-screen.t-s3 { grid-column: span 2; aspect-ratio: 1 / 1; }
   .bt-phone { border-width: 5px; border-radius: 24px; width: min(calc(100cqw - 28px), calc((100cqh - 28px) * 9 / 19.5)); }
 }
 
