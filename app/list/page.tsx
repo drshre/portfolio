@@ -15,8 +15,8 @@ export default function ListPage() {
       <main className="sheet is-open lv" id="sheet" aria-label="Shreyas Parat" tabIndex={-1}>
         <div className="sh-bar">
           <span style={{ flex: 1 }} />
-          <a className="sign r sh-name" href="#" aria-label="Shreyas Parat, back to all projects">
-            <span>Shreyas Parat</span>
+          <a className="sign r sh-name" href="#" aria-label="Back to all projects">
+            <span>All projects</span>
           </a>
           <span style={{ flex: 1 }} />
           <a className="sign r lv-3d" id="lv-3d" href="/">

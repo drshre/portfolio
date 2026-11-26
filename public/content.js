@@ -377,7 +377,7 @@ function aboutHTML(opts = {}) {
   const tiles = {
     intro: () => ({ cls: "t-about", html: `
           <header>
-            <h1 class="pd-name">${opts.signpost ? "Shreyas Parat" : "About"}</h1>
+            <h1 class="pd-name">Shreyas Parat</h1>
             <p class="pd-role">Design &amp; Build</p>
           </header>
           <div>

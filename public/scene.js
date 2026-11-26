@@ -24,7 +24,7 @@ scene.fog = new THREE.Fog(HORIZON, 30, 95);
 const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 200);
 const HOME = { pos: new THREE.Vector3(11.5, 9.5, 15.5), target: new THREE.Vector3(0, 0.4, -0.2) };
 const MOBILE = innerWidth <= 860;
-if (MOBILE) { HOME.pos.set(0.4, 21, 23.5); HOME.target.set(-0.35, 0, 0); } // looks down the front-to-back column of objects
+if (MOBILE) { HOME.pos.set(0.3, 7.2, 17); HOME.target.set(-0.3, 0, 1); } // low, shallow (~24°) look down the front-to-back column of objects (was pos 0.4,21,23.5 / target -0.35,0,0)
 camera.position.copy(HOME.pos);
 
 const controls = new THREE.OrbitControls(camera, canvas);
@@ -700,11 +700,11 @@ function Canary(g) {
 // Scattered, not gridded: positions were relaxed so every object keeps ~2.0 units of clear ground to its nearest neighbor
 // (gap measured edge to edge using each model's STANDALONE width), with a little extra yaw so they don't all face square on
 const LAYOUT = {
-  outlandish: [-5.7, -1.05, 0.22], allora: [-2.1, -2.8, -0.14], starling: [0.9, -1.4, 0.18], estimator: [4.4, -2.6, -0.2],
+  outlandish: [0.9, -1.4, 0.22], allora: [-2.1, -2.8, -0.14], starling: [-5.7, -1.05, 0.18], estimator: [4.4, -2.6, -0.2],
   stash: [-2.95, 1.65, 0.16], nella: [0.35, 2.45, -0.1], annie: [4.6, 1.0, 0.12]
 };
 // Phones and narrow screens: the same order, zigzagged front to back down a two-wide column so it fills a portrait view
-if (MOBILE) ["outlandish", "allora", "starling", "estimator", "stash", "nella", "annie"].forEach((id, i) => {
+if (MOBILE) ["starling", "allora", "outlandish", "estimator", "stash", "nella", "annie"].forEach((id, i) => {
   LAYOUT[id] = [i % 2 ? 1.9 : -1.9, -3.2 + i * 1.8, LAYOUT[id][2]];
 });
 const FOOTPRINT = 3.1;
@@ -1601,7 +1601,8 @@ plist.addEventListener("pointerleave", () => { hovered = null; refreshOutlines()
 const meadowStrip = document.getElementById("meadow-strip");
 if (meadowStrip) {
   // each sign is painted in its project's colour so it reads as the label for that object, with white lettering
-  meadowStrip.innerHTML = PROJECTS.map(p =>
+  // the List view sign leads the strip on mobile (the corner toggle is hidden there)
+  meadowStrip.innerHTML = '<a class="ms-btn ms-list sign r" href="/list"><span class="ms-name">List view</span></a>' + PROJECTS.map(p =>
     '<button type="button" class="ms-btn sign r" data-id="' + p.id + '" style="--pc:' + p.color + ';--pc-ink:#FFFDF6">' +
     '<span class="ms-name">' + p.name + '</span>' +
     '</button>'

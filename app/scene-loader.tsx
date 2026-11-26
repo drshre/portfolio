@@ -11,8 +11,8 @@ const SCRIPTS = [
   "/lib/RoomEnvironment.js",
   "/lib/GLTFLoader.js",
   "/lib/meshopt_decoder.js",
-  "/content.js?v=14", // projects + page templates, shared with the list view; bump v when you edit it
-  "/scene.js?v=13",
+  "/content.js?v=15", // projects + page templates, shared with the list view; bump v when you edit it
+  "/scene.js?v=14",
 ];
 
 function load(src: string) {
