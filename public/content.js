@@ -25,7 +25,7 @@ const PROJECTS = [
     q: "What if a notes app had no folders at all?",
     blurb: "A notes app where you write first and organize later. One continuous stream replaces the file-and-folder model.",
     status: "On the App Store", year: "2025", role: "Sole designer and developer", built: "Swift, SwiftUI" },
-  { id: "nella", name: "Nella", mesh: "ToyBlocks", color: "#233A66",
+  { id: "nella", name: "Nella", mesh: "OpenBook", color: "#233A66",
     q: "What if an AI that could only write text could still hold a five-year-old's attention at bedtime?",
     blurb: "AI bedtime stories for iPhone. I led design and creative direction at Five & Done, from positioning and naming through launch.",
     status: "On the App Store", year: "2024", role: "Design and creative direction", built: "Five & Done team" },
