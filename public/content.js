@@ -183,65 +183,72 @@ function caseFor(p) {
    A layout is a list of [tile, columns, rows, tone] on a 12-column grid (rows are 88px and grow to fit text).
    Tiles with nothing to show are skipped and the grid packs densely, so a layout survives an empty beat or a missing link.
    Tiles: hook, premise, facts, hero, b1–b3 (beats), s1–s4 (screens), anim, ask, link, sketch (Allora only).
-   Tones: card (default), acc (project colour), ink (dark), tint (pale project colour), line (no fill). */
+   Tones: card (default), acc (project colour), acc2 (secondary colour, color2), shot (warm neutral behind screenshots), ink (dark), tint (pale project colour), line (no fill).
+   Fixed tones (TONE_RULES): the premise is always the project colour so the explanation stands out,
+   the "what if" hook is always the secondary colour, screenshot tiles are always a warm neutral (shot) so nothing
+   colours how the screenshots read, and the beats (feature tiles) are never the project colour.
+   These win over whatever tone a layout gives them. */
+const TONE_RULES = { premise: "acc", hook: "acc2", s1: "shot", s2: "shot", s3: "shot", s4: "shot" };
+// Feature tiles (beats) never sit on the project colour, so the premise stays the one primary tile that stands out.
+const toneFor = (key, tone) => TONE_RULES[key] || (/^b\d$/.test(key) && tone === "acc" ? "card" : tone) || "card";
 const LAYOUTS = {
   outlandish: [
-    ["hook", 8, 4], ["facts", 4, 4, "acc"],
+    ["hook", 8, 4, "acc2"], ["facts", 4, 4, "acc"],
     ["hero", 12, 6],
-    ["premise", 5, 3], ["s1", 3, 6, "tint"], ["b1", 4, 3, "ink"],
-    ["b2", 5, 3, "acc"], ["b3", 4, 3, "line"],
-    ["s2", 3, 6, "tint"], ["anim", 6, 6, "ink"], ["s3", 3, 6, "tint"],
+    ["premise", 5, 3, "acc"], ["s1", 3, 6, "shot"], ["b1", 4, 3, "ink"],
+    ["b2", 5, 3], ["b3", 4, 3, "line"],
+    ["s2", 3, 6, "shot"], ["anim", 6, 6, "ink"], ["s3", 3, 6, "shot"],
     ["ask", 8, 2], ["link", 4, 2, "acc"]
   ],
   annie: [
-    ["hook", 7, 4, "acc"], ["premise", 5, 4],
-    ["s1", 3, 6, "tint"], ["b1", 6, 3], ["s2", 3, 6, "tint"],
+    ["hook", 7, 4, "acc2"], ["premise", 5, 4, "acc"],
+    ["s1", 3, 6, "shot"], ["b1", 6, 3], ["s2", 3, 6, "shot"],
     ["b2", 6, 3, "line"],
-    ["anim", 9, 6, "ink"], ["s3", 3, 6, "tint"],
-    ["b3", 6, 3, "acc"], ["facts", 6, 3],
+    ["anim", 9, 6, "ink"], ["s3", 3, 6, "shot"],
+    ["b3", 6, 3, "line"], ["facts", 6, 3],
     ["ask", 12, 2], ["link", 12, 2]
   ],
   stash: [
-    ["hook", 12, 3, "line"],
-    ["premise", 6, 6, "acc"], ["s1", 3, 6, "tint"], ["s2", 3, 6, "tint"],
+    ["hook", 12, 3, "acc2"],
+    ["premise", 6, 6, "acc"], ["s1", 3, 6, "shot"], ["s2", 3, 6, "shot"],
     ["b1", 4, 3], ["b2", 4, 3, "ink"], ["b3", 4, 3],
-    ["s3", 3, 6, "tint"], ["hero", 9, 6],
+    ["s3", 3, 6, "shot"], ["hero", 9, 6],
     ["facts", 4, 3], ["link", 4, 3, "acc"], ["ask", 4, 3]
   ],
   allora: [
-    ["sketch", 4, 7, "ink"], ["hook", 8, 4], ["premise", 8, 3, "line"],
-    ["b1", 6, 3], ["b2", 6, 3, "acc"],
-    ["s1", 3, 6, "tint"], ["b3", 6, 6, "ink"], ["s2", 3, 6, "tint"],
-    ["s3", 3, 6, "tint"], ["anim", 9, 6],
+    ["sketch", 4, 7, "ink"], ["hook", 8, 4, "acc2"], ["premise", 8, 3, "acc"],
+    ["b1", 6, 3], ["b2", 6, 3, "line"],
+    ["s1", 3, 6, "shot"], ["b3", 6, 6, "ink"], ["s2", 3, 6, "shot"],
+    ["s3", 3, 6, "shot"], ["anim", 9, 6],
     ["facts", 4, 3], ["ask", 8, 3, "acc"],
     ["link", 12, 2]
   ],
   nella: [
-    ["hook", 8, 4, "acc"], ["premise", 4, 4, "line"],
-    ["s1", 3, 6, "tint"], ["b1", 6, 3], ["s2", 3, 6, "tint"],
+    ["hook", 8, 4, "acc2"], ["premise", 4, 4, "acc"],
+    ["s1", 3, 6, "shot"], ["b1", 6, 3], ["s2", 3, 6, "shot"],
     ["b2", 6, 3, "ink"],
-    ["s3", 3, 6, "tint"], ["anim", 9, 6, "ink"],
+    ["s3", 3, 6, "shot"], ["anim", 9, 6, "ink"],
     ["hero", 8, 5], ["facts", 4, 3], ["link", 4, 2, "acc"],
     ["ask", 12, 2], ["b3", 12, 2]
   ],
   estimator: [
-    ["hook", 7, 4], ["premise", 5, 4, "acc"],
+    ["hook", 7, 4, "acc2"], ["premise", 5, 4, "acc"],
     ["hero", 12, 6],
-    ["b1", 4, 3, "ink"], ["b2", 4, 3], ["b3", 4, 3, "acc"],
-    ["s1", 8, 5, "tint"], ["facts", 4, 3], ["link", 4, 2, "line"],
+    ["b1", 4, 3, "ink"], ["b2", 4, 3], ["b3", 4, 3, "line"],
+    ["s1", 8, 5, "shot"], ["facts", 4, 3], ["link", 4, 2, "line"],
     ["anim", 12, 5, "ink"], ["ask", 12, 2]
   ],
   starling: [
-    ["hook", 8, 4, "acc"], ["s1", 4, 7, "tint"],
-    ["premise", 8, 3, "line"],
+    ["hook", 8, 4, "acc2"], ["s1", 4, 7, "shot"],
+    ["premise", 8, 3, "acc"],
     ["b1", 6, 4], ["b2", 6, 4, "ink"],
-    ["s2", 4, 6, "tint"], ["s3", 4, 6, "tint"], ["b3", 4, 3], ["facts", 4, 3],
+    ["s2", 4, 6, "shot"], ["s3", 4, 6, "shot"], ["b3", 4, 3], ["facts", 4, 3],
     ["anim", 12, 5], ["ask", 12, 2], ["link", 12, 2]
   ]
 };
 const DEFAULT_LAYOUT = [
-  ["hook", 8, 4], ["facts", 4, 4, "acc"], ["hero", 12, 6], ["premise", 6, 3], ["b1", 6, 3, "ink"],
-  ["s1", 3, 6, "tint"], ["b2", 6, 3], ["s2", 3, 6, "tint"], ["b3", 6, 3, "acc"], ["anim", 8, 5, "ink"], ["link", 4, 2], ["ask", 4, 3]
+  ["hook", 8, 4, "acc2"], ["facts", 4, 4, "acc"], ["hero", 12, 6], ["premise", 6, 3, "acc"], ["b1", 6, 3, "ink"],
+  ["s1", 3, 6, "shot"], ["b2", 6, 3], ["s2", 3, 6, "shot"], ["b3", 6, 3, "line"], ["anim", 8, 5, "ink"], ["link", 4, 2], ["ask", 4, 3]
 ];
 // Text colour on the project colour: the project's own supporting colour when it reads well, otherwise cream or dark ink.
 const lum = h => { const n = h.length === 4 ? h.slice(1).split("").map(x => x + x).join("") : h.slice(1); return [0, 2, 4].map(i => { const v = parseInt(n.slice(i, i + 2), 16) / 255; return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; }).reduce((a, v, i) => a + v * [0.2126, 0.7152, 0.0722][i], 0); };
@@ -259,12 +266,27 @@ const wiOnAcc = p => {
   const own = [p.color2, p.color3].filter(Boolean).sort((a, b) => contrast(p.color, b) - contrast(p.color, a))[0];
   return own && contrast(p.color, own) >= 3 ? own : readable(p.color, p.color, 3);
 };
-const wiVars = p => `--wi:${readable(p.color, "#EEE7DB")};--wi-line:${readable(p.color, "#F7F2EA")};--wi-ink:${readable(p.color, "#221C16")};--wi-acc:${wiOnAcc(p)}`;
-const onAcc = p => {
-  const own = [p.color2, p.color3].filter(Boolean).sort((a, b) => contrast(p.color, b) - contrast(p.color, a))[0];
-  if (own && contrast(p.color, own) >= 4.5) return own;
-  return contrast(p.color, "#FFF8EE") >= contrast(p.color, "#221C16") ? "#FFF8EE" : "#221C16";
+// Secondary colour for the "what if" tile: color2, unless it's missing or too close to the page background to read as a tile
+// (several projects use their app's off-white UI colour as color2). Then fall back to a mid-tone of the project colour.
+const PAGE_BG = "#F7F2EA";
+const SEC_MIX = 0.35; // share of project colour in the fallback; screenshot tiles use 16%, so the hook stays distinct
+const mixHex = (a, b, k) => { const x = rgbOf(a), y = rgbOf(b); return toHex(x.map((v, i) => v * k + y[i] * (1 - k))); };
+const sec = p => p.color2 && apca(p.color2, PAGE_BG) >= 15 ? p.color2 : mixHex(p.color, PAGE_BG, SEC_MIX);
+const wiVars = p => `--wi:${readable(p.color, "#EEE7DB")};--wi-line:${readable(p.color, "#F7F2EA")};--wi-ink:${readable(p.color, "#221C16")};--wi-acc:${wiOnAcc(p)};--wi-acc2:${readable(p.color, sec(p))}`;
+// Text on the project colour is chosen by APCA lightness contrast, not the WCAG 2 ratio: WCAG 2 overrates dark text
+// on saturated mid-tones (orange, red, green), which is why black body copy on those tiles read poorly.
+const apca = (txt, bg) => {
+  const y = h => { const c = rgbOf(h).map(v => (v / 255) ** 2.4); const Y = 0.2126729 * c[0] + 0.7151522 * c[1] + 0.0721750 * c[2]; return Y < 0.022 ? Y + (0.022 - Y) ** 1.414 : Y; };
+  const t = y(txt), b = y(bg);
+  const s = b > t ? (b ** 0.56 - t ** 0.57) * 1.14 : (b ** 0.65 - t ** 0.62) * 1.14;
+  return Math.abs(s) < 0.1 ? 0 : Math.abs(s) * 100 - 2.7;
 };
+const onAcc = p => {
+  const own = [p.color2, p.color3].filter(Boolean).sort((a, b) => apca(b, p.color) - apca(a, p.color))[0];
+  if (own && apca(own, p.color) >= 60) return own;
+  return apca("#FFF8EE", p.color) >= apca("#221C16", p.color) ? "#FFF8EE" : "#221C16";
+};
+const onSec = p => apca("#FFF8EE", sec(p)) >= apca("#221C16", sec(p)) ? "#FFF8EE" : "#221C16";
 
 function sheetHTML(p) {
   const c = caseFor(p), d = DETAILS[p.id] || { links: [] }, a = ASSETS[p.id] || {}, i = PROJECTS.indexOf(p);
@@ -306,11 +328,11 @@ function sheetHTML(p) {
   const cells = (LAYOUTS[p.id] || DEFAULT_LAYOUT).map(([key, cols, rows, tone]) => {
     const t = tiles[key] && tiles[key]();
     if (!t) return "";
-    return `<div class="bt ${t.cls} tone-${tone || "card"}" style="--c:${cols};--r:${rows}">${t.html}</div>`;
+    return `<div class="bt ${t.cls} tone-${toneFor(key, tone)}" style="--c:${cols};--r:${rows}">${t.html}</div>`;
   }).join("");
 
   return `
-    <div class="bento" data-screens="${(LAYOUTS[p.id] || DEFAULT_LAYOUT).filter(([k]) => /^s\d$/.test(k)).length}" style="--acc:${p.color};--on-acc:${onAcc(p)};--acc-2:${p.color2 || p.color};--acc-3:${p.color3 || p.color};${wiVars(p)}">${cells}</div>
+    <div class="bento" data-screens="${(LAYOUTS[p.id] || DEFAULT_LAYOUT).filter(([k]) => /^s\d$/.test(k)).length}" style="--acc:${p.color};--on-acc:${onAcc(p)};--acc-2:${p.color2 || p.color};--sec:${sec(p)};--on-sec:${onSec(p)};--acc-3:${p.color3 || p.color};${wiVars(p)}">${cells}</div>
     <nav class="sh-nav" aria-label="More projects">
       <a href="#" aria-label="Back to all projects"><span class="sign l"><span>Back</span></span></a>
       <a href="#${next.id}" aria-label="Next project: ${esc(next.name)}"><span class="sign r"><span>${esc(next.name)}</span></span></a>
