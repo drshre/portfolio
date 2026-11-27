@@ -5,7 +5,7 @@ import caseStudies from "../case-studies.json";
 
 // Only the shared content and the list router: no three.js, no models.
 // Bump CONTENT_VERSION when you edit public/content.js or public/list.js so browsers fetch the new copy.
-const CONTENT_VERSION = "16";
+const CONTENT_VERSION = "17";
 const SCRIPTS = [`/content.js?v=${CONTENT_VERSION}`, `/list.js?v=${CONTENT_VERSION}`];
 
 function load(src: string) {

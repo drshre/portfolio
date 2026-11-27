@@ -130,7 +130,7 @@ const ASSETS = {
   starling:   { hero: null, animatic: null, screens: shots("starling", ["A hand-painted Grey-headed Canary-flycatcher, today's bird", "Jump to Day: a calendar with a different bird for each day", "The hand-drawn keypad for adding alarms to a schedule"]) },
   estimator:  { hero: null, screens: [], animatic: null },
   stash:      { hero: null, animatic: null, screens: shots("stash", ["The keyboard opens with the app, ready to capture a thought", "Double-tap a note to highlight it", "Photos stacked in the stream, and a note crossed out with a swipe"]) },
-  nella:      { hero: null, screens: [], animatic: null },
+  nella:      { hero: null, animatic: null, screens: shots("nella", ["Choosing a character: Astro the Gentle Fox", "Building a new character, Mad Libs style: Scout the Mischievous Koala", "The story read aloud word by word, with the character and setting above"]) },
   annie:      { hero: null, animatic: null, screens: shots("annie", ["October's spending as a spoke diagram, one spoke per day", "Logging a $61.72 purchase by hand", "The year at a glance, one spoke per month"]) }
 };
 
@@ -217,12 +217,12 @@ const LAYOUTS = {
     ["link", 12, 2]
   ],
   nella: [
-    ["hook", 12, 4, "acc"],
-    ["s1", 3, 6, "tint"], ["b1", 5, 3], ["premise", 4, 6, "line"],
-    ["b2", 5, 3, "ink"],
+    ["hook", 8, 4, "acc"], ["premise", 4, 4, "line"],
+    ["s1", 3, 6, "tint"], ["b1", 6, 3], ["s2", 3, 6, "tint"],
+    ["b2", 6, 3, "ink"],
+    ["s3", 3, 6, "tint"], ["anim", 9, 6, "ink"],
     ["hero", 8, 5], ["facts", 4, 3], ["link", 4, 2, "acc"],
-    ["anim", 6, 4, "ink"], ["ask", 6, 4],
-    ["b3", 12, 2]
+    ["ask", 12, 2], ["b3", 12, 2]
   ],
   estimator: [
     ["hook", 7, 4], ["premise", 5, 4, "acc"],
