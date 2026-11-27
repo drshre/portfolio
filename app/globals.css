@@ -737,6 +737,8 @@ body { background: var(--horizon); }
   .t-hook { order: -1; }
   .bento[data-screens="1"] .t-screen { grid-column: span 2; aspect-ratio: 1 / 1; }
   .bento[data-screens="3"] .t-screen.t-s3 { grid-column: span 2; aspect-ratio: 1 / 1; }
+  /* a lone full-width phone gets a tall tile so the screen reads big (browser screenshots stay square) */
+  .bento[data-screens="1"] .t-screen:not(.t-web), .bento[data-screens="3"] .t-screen.t-s3:not(.t-web) { aspect-ratio: 3 / 4; }
   .bt-phone { --bz: 5px; --pw: min(calc(100cqw - 28px), calc((100cqh - 28px) * 9 / 19.5)); }
 }
 

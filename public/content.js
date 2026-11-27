@@ -70,15 +70,15 @@ const DETAILS = {
     build: "I designed and wrote the app myself in Swift and SwiftUI starting in 2020, years before an AI could pair-program with me. Trails are built a new way that works offline, because the best places tend to have no signal. The data layer joins USGS, RIDB and SurveyLA into one model of public land, on an AWS backend.",
     design: "Navigation apps assume more sharing is better; Outlandish assumes the opposite. It gets you to a place without turning that place into a pin anyone can copy. It's built for casual explorers like me, and the newest version makes the map the root of the app, with the list tucked into a tab on the right edge.",
     taught: "Product quality is rarely the limiting factor; distribution is. A discovery app has a cold-start problem, because the content that attracts people only exists after people arrive. I now plan distribution before I plan features.",
-    links: [["getoutlandish.com", "https://getoutlandish.com"]]
+    links: [["Download on the App Store", "https://apps.apple.com/app/id1528987490"]]
   },
   allora: {
     answer: "an alarm app for iPhone that rethinks waking up, starting from the input.",
     signal: "Late at night, half asleep, I'd flick a scroll wheel to land on 6:45 and overshoot it. The stock alarm is a precision time picker, used at the moment you have the least precision to give.",
     build: "Designed and built in Swift and SwiftUI. Most people wake at a handful of familiar times, so the core interaction is a grid of hours you tap directly, and alarms switch on or off as a set.",
-    design: "No scroll wheel. Hours are big targets you can hit without your glasses, alarms toggle together, and the palette stays dim enough for a dark bedroom. Try the sketch below.",
+    design: "No scroll wheel. Hours are big targets you can hit without your glasses, alarms toggle together, and the palette stays dim enough for a dark bedroom.",
     taught: "With the scroll wheel gone, much of the old screen turned out to exist only to support it. Change the input and the rest of the interface rearranges itself around the person.",
-    links: []
+    links: [["Try it out", ""]] /* paste Allora TestFlight URL */
   },
   starling: {
     answer: "an alarm app for iPhone that wakes you with a different birdsong each day.",
@@ -86,7 +86,7 @@ const DETAILS = {
     build: "Designed and built in Swift and SwiftUI. Each morning picks a different birdsong, so the alarm never settles into a sound you dread.",
     design: "The whole app has a hand-painted look, so it feels like something a person made, warm enough for the first thing you see each day.",
     taught: "Still in development. This is where the lesson will go.",
-    links: [], pending: true
+    links: [["Try it out", ""]] /* paste Starling TestFlight URL */, pending: true
   },
   estimator: {
     answer: "an AI estimator for Five & Done, built through Offleash, the studio's innovation arm.",
@@ -94,7 +94,7 @@ const DETAILS = {
     build: "I co-founded Offleash to give ideas like this somewhere to go. The estimator captures how the studio actually estimates and lets an AI draft the first pass. It was built as an internal tool, then adopted across the studio.",
     design: "The AI's estimate is a first draft for people to refine, not a final number, so the interface is built around reviewing and adjusting.",
     taught: "An internal tool is speculative design with a built-in test audience. Colleagues tell you right away whether the future you imagined actually works.",
-    links: [["projects.offleash.xyz", "https://projects.offleash.xyz"]], pending: true
+    links: [["Try it out", "https://www.fiveanddone.com/project-estimator"]], pending: true
   },
   stash: {
     answer: "a notes app for iPhone where you write first and organize later.",
@@ -102,7 +102,7 @@ const DETAILS = {
     build: "I was the sole designer and developer, in Swift and SwiftUI. Everything you save lives on one never-ending surface instead of in a tree of folders.",
     design: "Throw out the file-and-folder model and replace it with one continuous stream. Capturing a note should cost nothing; finding it later is the app's job.",
     taught: "Folders are a desktop metaphor that phones inherited without anyone asking. Removing a structure people assume is essential is the quickest way to learn whether they needed it.",
-    links: [["stashtosave.com", "https://stashtosave.com"]]
+    links: [["Download on the App Store", "https://apps.apple.com/us/app/stash-save-thoughts-ideas/id6739010620"]]
   },
   nella: {
     answer: "an AI bedtime story app for iPhone, designed at Five & Done.",
@@ -110,7 +110,7 @@ const DETAILS = {
     build: "I defined the target customer, the problem hypothesis and the positioning, named the product and set its creative direction. Then I took it through rapid prototyping, interaction design and user testing.",
     design: "Design the interface around the text so a story feels alive without generated images.",
     taught: "A model's limits make a good design brief. The constraint shaped the most distinctive parts of the product. I drove the launch across the app, the marketing site, social and lifecycle email.",
-    links: [["nellastories.com", "https://nellastories.com"]]
+    links: [["Download on the App Store", "https://apps.apple.com/us/app/nella-short-bedtime-stories/id6475746199"]]
   },
   annie: {
     answer: "a daily finance tracker built around a data visualization I invented.",
@@ -122,16 +122,16 @@ const DETAILS = {
   }
 };
 
-// Drop real files in here as they're ready: icon (app icon, square, shown at 64×64), hero (16:9 image), screens (up to 4 phone screenshots: a path, or { src, alt }), animatic (MP4).
+// Drop real files in here as they're ready: icon (app icon, square, shown at 64×64), hero (16:9 image), screens (up to 4 phone screenshots: a path, or { src, alt }), animatic (MP4 screen recording, 9:19.5, shown in the phone frame like a screenshot).
 const shots = (id, alts) => alts.map((alt, i) => ({ src: `/screens/${id}-${i + 1}.webp`, alt }));
 const ASSETS = {
   outlandish: { hero: null, animatic: null, screens: shots("outlandish", ["Trail details for 4S10 East Indian Creek, with clearance and surface at a glance", "Marking trail conditions: rocky, narrow, mud, steep and more", "A 19.6-mile route highlighted across the San Bernardino National Forest"]) },
-  allora:     { hero: null, animatic: null, screens: shots("allora", ["The 24-hour dial, showing alarms at 6:20 and 6:30 AM and the time until wake-up", "Alarm Schedules: Call, Work and Weekend, each switched on or off as a set", "The red-shifted minute grid for picking an alarm time in the dark"]) },
-  starling:   { hero: null, animatic: null, screens: shots("starling", ["A hand-painted Grey-headed Canary-flycatcher, today's bird", "Jump to Day: a calendar with a different bird for each day", "The hand-drawn keypad for adding alarms to a schedule"]) },
-  estimator:  { hero: null, screens: [], animatic: null },
-  stash:      { hero: null, animatic: null, screens: shots("stash", ["The keyboard opens with the app, ready to capture a thought", "Double-tap a note to highlight it", "Photos stacked in the stream, and a note crossed out with a swipe"]) },
-  nella:      { hero: null, animatic: null, screens: shots("nella", ["Choosing a character: Astro the Gentle Fox", "Building a new character, Mad Libs style: Scout the Mischievous Koala", "The story read aloud word by word, with the character and setting above"]) },
-  annie:      { hero: null, animatic: null, screens: shots("annie", ["October's spending as a spoke diagram, one spoke per day", "Logging a $61.72 purchase by hand", "The year at a glance, one spoke per month"]) }
+  allora:     { hero: null, animatic: "/animatics/allora.mp4", screens: shots("allora", ["The 24-hour dial, showing alarms at 6:20 and 6:30 AM and the time until wake-up", "Alarm Schedules: Call, Work and Weekend, each switched on or off as a set", "The red-shifted minute grid for picking an alarm time in the dark"]) },
+  starling:   { hero: null, animatic: "/animatics/starling.mp4", screens: shots("starling", ["A hand-painted Grey-headed Canary-flycatcher, today's bird", "Jump to Day: a calendar with a different bird for each day", "The hand-drawn keypad for adding alarms to a schedule"]) },
+  estimator:  { hero: "/animatics/estimator.mp4", screens: [], animatic: null }, // landscape web demo, so it plays in the hero tile
+  stash:      { hero: null, animatic: "/animatics/stash.mp4", screens: shots("stash", ["The keyboard opens with the app, ready to capture a thought", "Double-tap a note to highlight it", "Photos stacked in the stream, and a note crossed out with a swipe"]) },
+  nella:      { hero: null, animatic: "/animatics/nella.mp4", screens: shots("nella", ["Choosing a character: Astro the Gentle Fox", "Building a new character, Mad Libs style: Scout the Mischievous Koala", "The story read aloud word by word, with the character and setting above"]) },
+  annie:      { hero: null, animatic: "/animatics/annie.mp4", screens: shots("annie", ["October's spending as a spoke diagram, one spoke per day", "Logging a $61.72 purchase by hand", "The year at a glance, one spoke per month"]) }
 };
 
 function alloraSketch() {
@@ -146,6 +146,7 @@ function alloraSketch() {
 }
 function wireAlloraSketch() {
   const grid = document.getElementById("allora-hours"), toggle = document.getElementById("allora-toggle"), note = document.getElementById("allora-note");
+  if (!grid) return; // the sketch tile isn't in Allora's layout any more
   const update = () => { const n = grid.querySelectorAll('[aria-pressed="true"]').length, s = n === 1 ? "" : "s"; note.textContent = grid.classList.contains("off") ? `${n} alarm${s} paused` : `${n} alarm${s} set`; };
   grid.addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; b.setAttribute("aria-pressed", b.getAttribute("aria-pressed") !== "true"); update(); });
   toggle.addEventListener("click", () => { const off = grid.classList.toggle("off"); toggle.textContent = off ? "All off" : "All on"; toggle.setAttribute("aria-pressed", String(!off)); update(); });
@@ -182,7 +183,7 @@ function caseFor(p) {
 /* ---------- Project pages: a bento grid, composed differently for each project ----------
    A layout is a list of [tile, columns, rows, tone] on a 12-column grid (rows are 88px and grow to fit text).
    Tiles with nothing to show are skipped and the grid packs densely, so a layout survives an empty beat or a missing link.
-   Tiles: hook, premise, facts, hero, b1–b3 (beats), s1–s4 (screens), anim, ask, link, sketch (Allora only).
+   Tiles: hook, premise, facts, hero, b1–b3 (beats), s1–s4 (screens), anim, ask, link, sketch (Allora only, not in its layout).
    Tones: card (default), acc (project colour), acc2 (secondary colour, color2), shot (warm neutral behind screenshots), ink (dark), tint (pale project colour), line (no fill).
    Fixed tones (TONE_RULES): the premise is always the project colour so the explanation stands out,
    the "what if" hook is always the secondary colour, screenshot tiles are always a warm neutral (shot) so nothing
@@ -204,22 +205,22 @@ const LAYOUTS = {
     ["hook", 7, 4, "acc2"], ["premise", 5, 4, "acc"],
     ["s1", 3, 6, "shot"], ["b1", 6, 3], ["s2", 3, 6, "shot"],
     ["b2", 6, 3, "line"],
-    ["anim", 9, 6, "ink"], ["s3", 3, 6, "shot"],
-    ["b3", 6, 3, "line"], ["facts", 6, 3],
+    ["anim", 3, 6, "shot"], ["b3", 6, 3, "line"], ["s3", 3, 6, "shot"],
+    ["facts", 6, 3],
     ["ask", 12, 2], ["link", 12, 2]
   ],
   stash: [
     ["hook", 12, 3, "acc2"],
     ["premise", 6, 6, "acc"], ["s1", 3, 6, "shot"], ["s2", 3, 6, "shot"],
     ["b1", 4, 3], ["b2", 4, 3, "ink"], ["b3", 4, 3],
-    ["s3", 3, 6, "shot"], ["hero", 9, 6],
+    ["s3", 3, 6, "shot"], ["anim", 3, 6, "shot"], ["hero", 6, 6],
     ["facts", 4, 3], ["link", 4, 3, "acc"], ["ask", 4, 3]
   ],
   allora: [
-    ["sketch", 4, 7, "ink"], ["hook", 8, 4, "acc2"], ["premise", 8, 3, "acc"],
-    ["b1", 6, 3], ["b2", 6, 3, "line"],
-    ["s1", 3, 6, "shot"], ["b3", 6, 6, "ink"], ["s2", 3, 6, "shot"],
-    ["s3", 3, 6, "shot"], ["anim", 9, 6],
+    ["hook", 8, 4, "acc2"], ["premise", 4, 4, "acc"],
+    ["anim", 3, 6, "shot"], ["b1", 6, 3], ["s1", 3, 6, "shot"],
+    ["b2", 6, 3, "line"],
+    ["s2", 3, 6, "shot"], ["b3", 6, 6, "ink"], ["s3", 3, 6, "shot"],
     ["facts", 4, 3], ["ask", 8, 3, "acc"],
     ["link", 12, 2]
   ],
@@ -242,8 +243,9 @@ const LAYOUTS = {
     ["hook", 8, 4, "acc2"], ["s1", 4, 7, "shot"],
     ["premise", 8, 3, "acc"],
     ["b1", 6, 4], ["b2", 6, 4, "ink"],
-    ["s2", 4, 6, "shot"], ["s3", 4, 6, "shot"], ["b3", 4, 3], ["facts", 4, 3],
-    ["anim", 12, 5], ["ask", 12, 2], ["link", 12, 2]
+    ["s2", 4, 6, "shot"], ["anim", 4, 6, "shot"], ["s3", 4, 6, "shot"],
+    ["b3", 6, 3], ["facts", 6, 3],
+    ["ask", 12, 2], ["link", 12, 2]
   ]
 };
 const DEFAULT_LAYOUT = [
@@ -312,27 +314,37 @@ function sheetHTML(p) {
     hook: () => ({ cls: "t-hook", html: `${a.icon ? `<img class="bt-icon" src="${a.icon}" alt="${esc(p.name)} app icon" width="56" height="56">` : ""}${label(esc(p.name))}<h1 class="pd-q">${whatIf(p.q)}</h1>` }),
     premise: () => paras.length ? { cls: "t-premise", html: paras.map(t => `<p>${esc(t)}</p>`).join("") } : null,
     facts: () => facts.length ? { cls: "t-facts", html: `<dl>${facts.map(([k, v]) => `<div><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join("")}</dl>` } : null,
-    hero: () => ({ cls: "t-media", html: media(a.hero, "img", "Hero image", "Landscape, 2400 × 1350") }),
+    // A hero can be a landscape video (web projects): shown whole, never cropped, so the UI stays readable.
+    hero: () => ({ cls: "t-media", html: /\.mp4$/.test(a.hero || "") ? `<video src="${a.hero}" autoplay muted loop playsinline aria-label="${esc(p.name)} demo" style="width:100%;height:100%;object-fit:contain;display:block;background:#000"></video>` : media(a.hero, "img", "Hero image", "Landscape, 2400 × 1350") }),
     b1: () => beat(0), b2: () => beat(1), b3: () => beat(2),
     s1: () => ({ cls: web ? "t-screen t-web" : "t-screen", html: screen(0) }),
     s2: () => ({ cls: web ? "t-screen t-web" : "t-screen", html: screen(1) }),
     s3: () => ({ cls: web ? "t-screen t-web t-s3" : "t-screen t-s3", html: screen(2) }),
     s4: () => ({ cls: web ? "t-screen t-web" : "t-screen", html: screen(3) }),
-    anim: () => ({ cls: "t-anim", html: a.animatic ? media(a.animatic, "video", "Animatic")
-      : `${label("Animatic")}<span class="play" aria-hidden="true"></span><span class="bt-cap">${c.animatic ? esc(c.animatic) : `The ${esc(p.name)} animatic will play here`}</span>` }),
+    // With a video, the animatic is a screen recording in the same phone frame as the screenshots, so it sizes like one.
+    anim: () => !a.animatic && /\.mp4$/.test(a.hero || "") ? null // the demo video already plays in the hero tile
+      : a.animatic ? { cls: "t-screen", tone: "shot", html: `<div class="bt-phone"><video src="${a.animatic}" autoplay muted loop playsinline aria-label="${esc(p.name)} animatic"></video></div>` }
+      : ({ cls: "t-anim", html: `${label("Animatic")}<span class="play" aria-hidden="true"></span><span class="bt-cap">${c.animatic ? esc(c.animatic) : `The ${esc(p.name)} animatic will play here`}</span>` }),
     ask: () => c.ask.length ? { cls: "t-ask", html: `<span class="bt-label">Ask me more about</span><ul>${c.ask.map(t => `<li><a href="${mail(t)}">${esc(t.charAt(0).toUpperCase() + t.slice(1))}<span aria-hidden="true">→</span></a></li>`).join("")}</ul>` } : null,
-    link: () => d.links && d.links.length ? { cls: "t-link", html: d.links.map(([t, u]) => `<a href="${u}">${label("Visit")}<b>${esc(t)}</b><span aria-hidden="true">↗</span></a>`).join("") } : null,
+    link: () => d.links && d.links.some(([, u]) => u) ? { cls: "t-link", html: d.links.filter(([, u]) => u).map(([t, u]) => `<a href="${u}" target="_blank" rel="noopener">${label("Visit")}<b>${esc(t)}</b><span aria-hidden="true">↗</span></a>`).join("") } : null,
     sketch: () => p.id === "allora" ? { cls: "t-sketch", html: `${label("Try it")}${alloraSketch()}` } : null
   };
 
-  const cells = (LAYOUTS[p.id] || DEFAULT_LAYOUT).map(([key, cols, rows, tone]) => {
+  // The animatic is always the first look at the app: when there's a video, it takes the first phone slot
+  // in the layout and the screenshot that was there moves to the animatic's slot.
+  const layout = (LAYOUTS[p.id] || DEFAULT_LAYOUT).map(r => r.slice());
+  if (a.animatic) {
+    const iA = layout.findIndex(([k]) => k === "anim"), iS = layout.findIndex(([k]) => /^s\d$/.test(k));
+    if (iA > iS && iS >= 0) [layout[iA][0], layout[iS][0]] = [layout[iS][0], "anim"];
+  }
+  const cells = layout.map(([key, cols, rows, tone]) => {
     const t = tiles[key] && tiles[key]();
     if (!t) return "";
-    return `<div class="bt ${t.cls} tone-${toneFor(key, tone)}" style="--c:${cols};--r:${rows}">${t.html}</div>`;
+    return `<div class="bt ${t.cls} tone-${t.tone || toneFor(key, tone)}" style="--c:${cols};--r:${rows}">${t.html}</div>`;
   }).join("");
 
   return `
-    <div class="bento" data-screens="${(LAYOUTS[p.id] || DEFAULT_LAYOUT).filter(([k]) => /^s\d$/.test(k)).length}" style="--acc:${p.color};--on-acc:${onAcc(p)};--acc-2:${p.color2 || p.color};--sec:${sec(p)};--on-sec:${onSec(p)};--acc-3:${p.color3 || p.color};${wiVars(p)}">${cells}</div>
+    <div class="bento" data-screens="${(LAYOUTS[p.id] || DEFAULT_LAYOUT).filter(([k]) => /^s\d$/.test(k) || (k === "anim" && a.animatic)).length}" style="--acc:${p.color};--on-acc:${onAcc(p)};--acc-2:${p.color2 || p.color};--sec:${sec(p)};--on-sec:${onSec(p)};--acc-3:${p.color3 || p.color};${wiVars(p)}">${cells}</div>
     <nav class="sh-nav" aria-label="More projects">
       <a href="#" aria-label="Back to all projects"><span class="sign l"><span>Back</span></span></a>
       <a href="#${next.id}" aria-label="Next project: ${esc(next.name)}"><span class="sign r"><span>${esc(next.name)}</span></span></a>
