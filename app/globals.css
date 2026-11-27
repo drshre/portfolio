@@ -725,7 +725,12 @@ body { background: var(--horizon); }
 .t-sketch .flag { color: #B8AE9F; border-color: var(--acc) !important; }
 
 .bt a:focus-visible { outline: 2px solid currentColor; outline-offset: -4px; border-radius: 18px; }
-.sheet .bento + .sh-nav { margin-top: 56px; border-top: 0; padding-top: 0; }
+/* The back/next signs sit exactly midway between the last tile and the footer: one gap above, the same gap below. */
+.sheet { --nav-gap: 56px; }
+.sheet .bento + .sh-nav { margin-top: var(--nav-gap); border-top: 0; padding-top: 0; }
+.sheet .bento + .sh-nav a { padding-top: 0 !important; }
+.sheet .bento + .sh-nav + .sh-foot { margin-top: var(--nav-gap); }
+@media (max-width: 860px) { .sheet { --nav-gap: 40px; } }
 
 @media (max-width: 860px) {
   .bento { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: auto; gap: 10px; }
