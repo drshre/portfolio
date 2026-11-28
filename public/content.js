@@ -154,7 +154,7 @@ function wireAlloraSketch() {
 
 function media(src, kind, label, spec) {
   if (src && kind === "img" && typeof src === "object") { label = src.alt || label; src = src.src; }
-  if (src && kind === "video") return `<video src="${src}" autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;display:block"></video>`;
+  if (src && kind === "video") return `<video src="${src}" poster="${src.replace(/\.mp4$/, ".jpg")}" autoplay muted loop playsinline preload="auto" style="width:100%;height:100%;object-fit:cover;display:block"></video>`;
   if (src) return `<img src="${src}" alt="${esc(label)}" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;display:block">`;
   return `<div class="ph-frame" style="width:100%;height:100%"><b>${label}</b><span>${spec}</span></div>`;
 }
@@ -315,7 +315,7 @@ function sheetHTML(p) {
     premise: () => paras.length ? { cls: "t-premise", html: paras.map(t => `<p>${esc(t)}</p>`).join("") } : null,
     facts: () => facts.length ? { cls: "t-facts", html: `<dl>${facts.map(([k, v]) => `<div><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join("")}</dl>` } : null,
     // A hero can be a landscape video (web projects): shown whole, never cropped, so the UI stays readable.
-    hero: () => ({ cls: "t-media", html: /\.mp4$/.test(a.hero || "") ? `<video src="${a.hero}" autoplay muted loop playsinline aria-label="${esc(p.name)} demo" style="width:100%;height:100%;object-fit:contain;display:block;background:#000"></video>` : media(a.hero, "img", "Hero image", "Landscape, 2400 × 1350") }),
+    hero: () => ({ cls: "t-media", html: /\.mp4$/.test(a.hero || "") ? `<video src="${a.hero}" poster="${a.hero.replace(/\.mp4$/, ".jpg")}" autoplay muted loop playsinline preload="auto" aria-label="${esc(p.name)} demo" style="width:100%;height:100%;object-fit:contain;display:block;background:#000"></video>` : media(a.hero, "img", "Hero image", "Landscape, 2400 × 1350") }),
     b1: () => beat(0), b2: () => beat(1), b3: () => beat(2),
     s1: () => ({ cls: web ? "t-screen t-web" : "t-screen", html: screen(0) }),
     s2: () => ({ cls: web ? "t-screen t-web" : "t-screen", html: screen(1) }),
@@ -323,7 +323,7 @@ function sheetHTML(p) {
     s4: () => ({ cls: web ? "t-screen t-web" : "t-screen", html: screen(3) }),
     // With a video, the animatic is a screen recording in the same phone frame as the screenshots, so it sizes like one.
     anim: () => !a.animatic && /\.mp4$/.test(a.hero || "") ? null // the demo video already plays in the hero tile
-      : a.animatic ? { cls: "t-screen", tone: "shot", html: `<div class="bt-phone"><video src="${a.animatic}" autoplay muted loop playsinline aria-label="${esc(p.name)} animatic"></video></div>` }
+      : a.animatic ? { cls: "t-screen", tone: "shot", html: `<div class="bt-phone"><video src="${a.animatic}" poster="${a.animatic.replace(/\.mp4$/, ".jpg")}" autoplay muted loop playsinline preload="auto" aria-label="${esc(p.name)} animatic"></video></div>` }
       : ({ cls: "t-anim", html: `${label("Animatic")}<span class="play" aria-hidden="true"></span><span class="bt-cap">${c.animatic ? esc(c.animatic) : `The ${esc(p.name)} animatic will play here`}</span>` }),
     ask: () => c.ask.length ? { cls: "t-ask", html: `<span class="bt-label">Ask me more about</span><ul>${c.ask.map(t => `<li><a href="${mail(t)}">${esc(t.charAt(0).toUpperCase() + t.slice(1))}<span aria-hidden="true">→</span></a></li>`).join("")}</ul>` } : null,
     link: () => d.links && d.links.some(([, u]) => u) ? { cls: "t-link", html: d.links.filter(([, u]) => u).map(([t, u]) => `<a href="${u}" target="_blank" rel="noopener">${label("Visit")}<b>${esc(t)}</b><span aria-hidden="true">↗</span></a>`).join("") } : null,
@@ -352,11 +352,9 @@ function sheetHTML(p) {
     ${footerHTML(p.id)}`;
 }
 /* ---------- Footer: closes every page in the sheet (about + project pages), in the list view and the 3D meadow ---------- */
-const LIVE = [["getoutlandish.com", "https://getoutlandish.com"], ["stashtosave.com", "https://stashtosave.com"], ["nellastories.com", "https://nellastories.com"], ["projects.offleash.xyz", "https://projects.offleash.xyz"]];
 function footerHTML(currentId) {
   const inList = !!document.querySelector(".sheet.lv");
   const hash = currentId ? "#" + currentId : "";
-  const ext = (t, u) => `<a href="${u}" target="_blank" rel="noopener">${esc(t)}<span aria-hidden="true">↗</span></a>`;
   return `
     <footer class="sh-foot" aria-label="Site footer">
       <div class="ft-in">
@@ -372,10 +370,6 @@ function footerHTML(currentId) {
             <div>
               <h3>Projects</h3>
               <ul>${PROJECTS.map(p => `<li><a href="#${p.id}"${p.id === currentId ? ' aria-current="page"' : ""}>${esc(p.name)}</a></li>`).join("")}</ul>
-            </div>
-            <div>
-              <h3>Live</h3>
-              <ul>${LIVE.map(([t, u]) => `<li>${ext(t, u)}</li>`).join("")}</ul>
             </div>
             <div>
               <h3>Site</h3>
