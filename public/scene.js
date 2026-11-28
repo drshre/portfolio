@@ -126,17 +126,23 @@ let terrainY = () => 0, skyMat;
 // Each keyframe: hour (0-24), sun XY position, sun color/intensity, hemisphere sky/ground colors,
 // sky dome top/mid/bottom colors, fog color/near/far, star opacity, moon opacity/light intensity.
 const ENV_KEYS = [
+  // Night: midnight blue to near-black
   { h:  0, sx: -6, sy:-16, sc:'#1E2460', si:0.00, hk:'#070A1A', hg:'#040608', st:'#02050E', sm:'#070B1E', sb:'#111640', fc:'#0A0E28', fn:18, ff:55, so:0.95, mo:0.90, mi:0.30 },
-  { h:  4, sx: -6, sy:-12, sc:'#1E2460', si:0.00, hk:'#070A1A', hg:'#040608', st:'#02050E', sm:'#070B1E', sb:'#111640', fc:'#0A0E28', fn:18, ff:55, so:0.95, mo:0.90, mi:0.30 },
-  { h:  5, sx:-18, sy:  0, sc:'#FF3C10', si:0.08, hk:'#1A1240', hg:'#100A08', st:'#160A30', sm:'#381550', sb:'#5A2858', fc:'#5A2858', fn:20, ff:60, so:0.75, mo:0.55, mi:0.08 },
-  { h:  6, sx:-18, sy:  2, sc:'#FF6818', si:0.50, hk:'#784468', hg:'#3A1E0E', st:'#38186A', sm:'#C85E38', sb:'#F4A030', fc:'#F09040', fn:24, ff:72, so:0.15, mo:0.05, mi:0.00 },
-  { h:  7, sx:-14, sy:  8, sc:'#FFA048', si:1.00, hk:'#A88070', hg:'#4A3018', st:'#605070', sm:'#C0A070', sb:'#F5C070', fc:'#F5B858', fn:27, ff:84, so:0.00, mo:0.00, mi:0.00 },
-  { h:  9, sx:-10, sy: 13, sc:'#FFE1B5', si:1.30, hk:'#CFE0F2', hg:'#6E7A4E', st:'#8FB6D9', sm:'#CFE0EC', sb:'#F3D9B8', fc:'#F3D9B8', fn:30, ff:95, so:0.00, mo:0.00, mi:0.00 },
-  { h: 12, sx:  0, sy: 20, sc:'#FFF8F0', si:1.55, hk:'#B8D8F4', hg:'#7A8A50', st:'#5A9ED8', sm:'#B8D6F0', sb:'#F5EAD0', fc:'#F5EAD0', fn:32, ff:100, so:0.00, mo:0.00, mi:0.00 },
-  { h: 15, sx: 10, sy: 14, sc:'#FFD090', si:1.30, hk:'#C8C0D8', hg:'#706838', st:'#6AA0C8', sm:'#D8C090', sb:'#F5D080', fc:'#F5D080', fn:30, ff:90, so:0.00, mo:0.00, mi:0.00 },
-  { h: 17, sx: 15, sy:  7, sc:'#FF8C38', si:1.00, hk:'#BC8C68', hg:'#3C1C0A', st:'#623850', sm:'#CC4428', sb:'#F58830', fc:'#F07838', fn:27, ff:80, so:0.00, mo:0.00, mi:0.00 },
-  { h: 19, sx: 17, sy:  1, sc:'#FF4018', si:0.45, hk:'#783050', hg:'#2A1408', st:'#360850', sm:'#B82A20', sb:'#F05828', fc:'#D84A28', fn:24, ff:68, so:0.20, mo:0.12, mi:0.00 },
-  { h: 20, sx: 13, sy: -3, sc:'#C01008', si:0.06, hk:'#361448', hg:'#160A14', st:'#180838', sm:'#301440', sb:'#4A2250', fc:'#422060', fn:20, ff:62, so:0.65, mo:0.60, mi:0.18 },
+  { h:  4, sx: -6, sy:-12, sc:'#1E2460', si:0.00, hk:'#070A1A', hg:'#040608', st:'#02050E', sm:'#0A1024', sb:'#1A2244', fc:'#0E1430', fn:18, ff:55, so:0.95, mo:0.90, mi:0.30 },
+  // Pre-dawn: brightening into cool slate and soft coral at the horizon
+  { h:  5, sx:-18, sy:  0, sc:'#F2A08C', si:0.08, hk:'#2A3050', hg:'#0E0C10', st:'#141A38', sm:'#3E4A6A', sb:'#C48A88', fc:'#6E6478', fn:20, ff:60, so:0.75, mo:0.55, mi:0.08 },
+  // Dawn & sunrise: rose, peach, pale gold horizon into periwinkle and slate blue
+  { h:  6, sx:-18, sy:  2, sc:'#FFBC9C', si:0.50, hk:'#9890B4', hg:'#3A2E2A', st:'#6A78B0', sm:'#E2AEB8', sb:'#F7C9A4', fc:'#F0C4AC', fn:24, ff:72, so:0.15, mo:0.05, mi:0.00 },
+  { h:  7, sx:-14, sy:  8, sc:'#FFD8A8', si:1.00, hk:'#B4BAD8', hg:'#4A3E28', st:'#7088BC', sm:'#B6C0E6', sb:'#F7E0B4', fc:'#F2DCC0', fn:27, ff:84, so:0.00, mo:0.00, mi:0.00 },
+  // Morning to midday: crisp sky blue and powder blue into deeper cerulean
+  { h:  9, sx:-10, sy: 13, sc:'#FFEFD6', si:1.30, hk:'#CFE0F2', hg:'#6E7A4E', st:'#4A8FCC', sm:'#A8CDEB', sb:'#DCEAF3', fc:'#DEEAF1', fn:30, ff:95, so:0.00, mo:0.00, mi:0.00 },
+  { h: 12, sx:  0, sy: 20, sc:'#FFF8F0', si:1.55, hk:'#B8D8F4', hg:'#7A8A50', st:'#2F7FC4', sm:'#8EC2EA', sb:'#D2E6F3', fc:'#D8E8F1', fn:32, ff:100, so:0.00, mo:0.00, mi:0.00 },
+  { h: 15, sx: 10, sy: 14, sc:'#FFE2AE', si:1.30, hk:'#C4CCDC', hg:'#706838', st:'#5E8CCB', sm:'#B4CCE0', sb:'#EEDCB8', fc:'#EEDCC0', fn:30, ff:90, so:0.00, mo:0.00, mi:0.00 },
+  // Afternoon & golden hour: amber, honey gold, apricot under muted cornflower
+  { h: 17, sx: 15, sy:  7, sc:'#FFB458', si:1.00, hk:'#C8AC8C', hg:'#4A3418', st:'#7A92C4', sm:'#F5C89C', sb:'#F2B65E', fc:'#F0BE84', fn:27, ff:80, so:0.00, mo:0.00, mi:0.00 },
+  // Dusk & twilight: burnt sienna, magenta, deep violet fading into indigo and twilight navy
+  { h: 19, sx: 17, sy:  1, sc:'#E8925C', si:0.45, hk:'#5A3468', hg:'#22140E', st:'#33226C', sm:'#A03C7A', sb:'#B4643E', fc:'#9A5650', fn:24, ff:68, so:0.20, mo:0.12, mi:0.00 },
+  { h: 20, sx: 13, sy: -3, sc:'#8A4C94', si:0.06, hk:'#241C48', hg:'#0E0A16', st:'#121848', sm:'#2C2468', sb:'#56306E', fc:'#2C2458', fn:20, ff:62, so:0.65, mo:0.60, mi:0.18 },
   { h: 22, sx: -6, sy:-16, sc:'#1E2460', si:0.00, hk:'#070A1A', hg:'#040608', st:'#02050E', sm:'#070B1E', sb:'#111640', fc:'#0A0E28', fn:18, ff:55, so:0.95, mo:0.90, mi:0.30 },
   { h: 24, sx: -6, sy:-16, sc:'#1E2460', si:0.00, hk:'#070A1A', hg:'#040608', st:'#02050E', sm:'#070B1E', sb:'#111640', fc:'#0A0E28', fn:18, ff:55, so:0.95, mo:0.90, mi:0.30 },
 ];
