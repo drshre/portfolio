@@ -125,7 +125,10 @@ const DETAILS = {
 // Drop real files in here as they're ready: icon (app icon, square, shown at 64×64), hero (16:9 image), screens (up to 4 phone screenshots: a path, or { src, alt }), animatic (MP4 screen recording, 9:19.5, shown in the phone frame like a screenshot).
 const shots = (id, alts) => alts.map((alt, i) => ({ src: `/screens/${id}-${i + 1}.webp`, alt }));
 const ASSETS = {
-  outlandish: { hero: null, animatic: null, screens: shots("outlandish", ["Trail details for 4S10 East Indian Creek, with clearance and surface at a glance", "Marking trail conditions: rocky, narrow, mud, steep and more", "A 19.6-mile route highlighted across the San Bernardino National Forest"]) },
+  outlandish: { hero: { src: "/photos/outlandish-hero.webp", alt: "Model Bronco and Wrangler on a granite ridge above a forested valley" },
+    photos: [{ src: "/photos/outlandish-photo-1.webp", alt: "A blue model Wrangler Rubicon on granite, mountains blurred behind" },
+             { src: "/photos/outlandish-photo-2.webp", alt: "Model Bronco and Wrangler from behind, heading toward a stand of pines" }],
+    animatic: null, screens: shots("outlandish", ["Trail details for 4S10 East Indian Creek, with clearance and surface at a glance", "Marking trail conditions: rocky, narrow, mud, steep and more", "A 19.6-mile route highlighted across the San Bernardino National Forest"]) },
   allora:     { hero: null, animatic: "/animatics/allora.mp4", screens: shots("allora", ["The 24-hour dial, showing alarms at 6:20 and 6:30 AM and the time until wake-up", "Alarm Schedules: Call, Work and Weekend, each switched on or off as a set", "The red-shifted minute grid for picking an alarm time in the dark"]) },
   starling:   { hero: null, animatic: "/animatics/starling.mp4", screens: shots("starling", ["A hand-painted Grey-headed Canary-flycatcher, today's bird", "Jump to Day: a calendar with a different bird for each day", "The hand-drawn keypad for adding alarms to a schedule"]) },
   estimator:  { hero: "/animatics/estimator.mp4", screens: [], animatic: null }, // landscape web demo, so it plays in the hero tile
@@ -198,8 +201,8 @@ const LAYOUTS = {
     ["hero", 12, 6],
     ["premise", 5, 3, "acc"], ["s1", 3, 6, "shot"], ["b1", 4, 3, "ink"],
     ["b2", 5, 3], ["b3", 4, 3, "line"],
-    ["s2", 3, 6, "shot"], ["anim", 6, 6, "ink"], ["s3", 3, 6, "shot"],
-    ["ask", 8, 2], ["link", 4, 2, "acc"]
+    ["p1", 7, 5], ["p2", 5, 5],
+    ["s2", 3, 6, "shot"], ["ask", 6, 3], ["s3", 3, 6, "shot"], ["link", 6, 3, "acc"]
   ],
   annie: [
     ["hook", 7, 4, "acc2"], ["premise", 5, 4, "acc"],
@@ -316,6 +319,9 @@ function sheetHTML(p) {
     facts: () => facts.length ? { cls: "t-facts", html: `<dl>${facts.map(([k, v]) => `<div><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join("")}</dl>` } : null,
     // A hero can be a landscape video (web projects): shown whole, never cropped, so the UI stays readable.
     hero: () => ({ cls: "t-media", html: /\.mp4$/.test(a.hero || "") ? `<video src="${a.hero}" poster="${a.hero.replace(/\.mp4$/, ".jpg")}" autoplay muted loop playsinline preload="auto" aria-label="${esc(p.name)} demo" style="width:100%;height:100%;object-fit:contain;display:block;background:#000"></video>` : media(a.hero, "img", "Hero image", "Landscape, 2400 × 1350") }),
+    // Extra photos (landscape), cropped to fill the tile
+    p1: () => a.photos && a.photos[0] ? { cls: "t-media", html: media(a.photos[0], "img") } : null,
+    p2: () => a.photos && a.photos[1] ? { cls: "t-media", html: media(a.photos[1], "img") } : null,
     b1: () => beat(0), b2: () => beat(1), b3: () => beat(2),
     s1: () => ({ cls: web ? "t-screen t-web" : "t-screen", html: screen(0) }),
     s2: () => ({ cls: web ? "t-screen t-web" : "t-screen", html: screen(1) }),
@@ -323,7 +329,7 @@ function sheetHTML(p) {
     s4: () => ({ cls: web ? "t-screen t-web" : "t-screen", html: screen(3) }),
     // With a video, the animatic is a screen recording in the same phone frame as the screenshots, so it sizes like one.
     anim: () => !a.animatic && /\.mp4$/.test(a.hero || "") ? null // the demo video already plays in the hero tile
-      : a.animatic ? { cls: "t-screen", tone: "shot", html: `<div class="bt-phone"><video src="${a.animatic}" poster="${a.animatic.replace(/\.mp4$/, ".jpg")}" autoplay muted loop playsinline preload="auto" aria-label="${esc(p.name)} animatic"></video></div>` }
+      : a.animatic ? { cls: "t-screen t-animv", tone: "shot", html: `<div class="bt-phone"><video src="${a.animatic}" poster="${a.animatic.replace(/\.mp4$/, ".jpg")}" autoplay muted loop playsinline preload="auto" aria-label="${esc(p.name)} animatic"></video></div>` }
       : ({ cls: "t-anim", html: `${label("Animatic")}<span class="play" aria-hidden="true"></span><span class="bt-cap">${c.animatic ? esc(c.animatic) : `The ${esc(p.name)} animatic will play here`}</span>` }),
     ask: () => c.ask.length ? { cls: "t-ask", html: `<span class="bt-label">Ask me more about</span><ul>${c.ask.map(t => `<li><a href="${mail(t)}">${esc(t.charAt(0).toUpperCase() + t.slice(1))}<span aria-hidden="true">→</span></a></li>`).join("")}</ul>` } : null,
     link: () => d.links && d.links.some(([, u]) => u) ? { cls: "t-link", html: d.links.filter(([, u]) => u).map(([t, u]) => `<a href="${u}" target="_blank" rel="noopener">${label("Visit")}<b>${esc(t)}</b><span aria-hidden="true">↗</span></a>`).join("") } : null,
@@ -337,9 +343,13 @@ function sheetHTML(p) {
     const iA = layout.findIndex(([k]) => k === "anim"), iS = layout.findIndex(([k]) => /^s\d$/.test(k));
     if (iA > iS && iS >= 0) [layout[iA][0], layout[iS][0]] = [layout[iS][0], "anim"];
   }
+  // On phones the animatic goes full width, which leaves an odd screenshot out of the pairs: mark the last one
+  // so it can go full width too instead of leaving a hole.
+  const lone = a.animatic ? layout.map(([k]) => k).filter(k => /^s\d$/.test(k) && tiles[k]()).pop() : null;
   const cells = layout.map(([key, cols, rows, tone]) => {
     const t = tiles[key] && tiles[key]();
     if (!t) return "";
+    if (key === lone) t.cls += " t-lone";
     return `<div class="bt ${t.cls} tone-${t.tone || toneFor(key, tone)}" style="--c:${cols};--r:${rows}">${t.html}</div>`;
   }).join("");
 

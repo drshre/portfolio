@@ -741,6 +741,10 @@ body { background: var(--horizon); }
   .bento[data-screens="1"] .t-screen:not(.t-web), .bento[data-screens="3"] .t-screen.t-s3:not(.t-web) { aspect-ratio: 3 / 4; }
   .bt-phone { --bz: 5px; --pw: min(calc(100cqw - 28px), calc((100cqh - 28px) * 9 / 19.5)); }
 }
+/* phones (tablets keep the 2-up pairs): the animatic video gets the full width, and so does the screenshot it would have paired with */
+@media (max-width: 599px) {
+  .bento .t-screen.t-animv, .bento .t-screen.t-lone:not(.t-web) { grid-column: span 2; aspect-ratio: 3 / 4; }
+}
 
 /* ================= Footer (public/content.js → footerHTML): one wide dark bento tile at the end of every sheet page, same colour on every project ================= */
 .sheet .sh-body:has(.sh-foot) { padding-bottom: clamp(20px, 4vw, 64px); }
@@ -752,7 +756,7 @@ body { background: var(--horizon); }
 .ft-sub { margin: 18px 0 0; font-size: 15px; line-height: 1.55; color: #B8AE9F; max-width: 30em; text-wrap: pretty; }
 .ft-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 18px 26px; margin-top: 30px; }
 .ft-actions .sign { filter: drop-shadow(0 3px 0 rgba(0, 0, 0, 0.35)); }
-.ft-cols { display: grid; grid-template-columns: repeat(3, auto); justify-content: space-between; gap: 28px 36px; padding-top: 6px; }
+.ft-cols { display: grid; grid-template-columns: repeat(2, auto); justify-content: space-between; gap: 28px 36px; padding-top: 6px; }
 .ft-cols h3 { margin: 0 0 16px; font: 400 13px/1 "Lilita One", system-ui, sans-serif; letter-spacing: 0.06em; text-transform: uppercase; color: #8C8174; }
 .ft-cols ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 11px; }
 .ft-cols a { display: inline-flex; align-items: center; gap: 9px; color: #EDE5D8; text-decoration: none; font-size: 14.5px; line-height: 1.3; transition: color 160ms ease, transform 180ms var(--ease-out); white-space: nowrap; }
@@ -773,10 +777,8 @@ body { background: var(--horizon); }
   .sh-foot { margin-top: 40px; border-radius: 18px; }
   .ft-in { padding: 26px 20px 20px; }
   .ft-top { grid-template-columns: 1fr; }
-  /* Projects | Live side by side, Site below */
+  /* Projects | Site side by side */
   .ft-cols { grid-template-columns: auto minmax(0, 1fr); justify-content: start; gap: 32px 28px; }
-  .ft-cols > div:nth-child(3) { grid-column: 1 / -1; }
-  .ft-cols > div:nth-child(2) a { white-space: normal; overflow-wrap: anywhere; }
   /* Copyright and "Made in LA" share one line; no Back to top on mobile */
   .ft-base { flex-wrap: nowrap; justify-content: space-between; gap: 14px; font-size: 12.5px; }
   .ft-base > span { white-space: nowrap; }
